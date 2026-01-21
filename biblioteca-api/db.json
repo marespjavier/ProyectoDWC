@@ -1,0 +1,94 @@
+{
+  "books": [
+    {
+      "id": 1,
+      "title": "Clean Code",
+      "authors": ["Robert C. Martin"],
+      "description": "Un manual de buenas prácticas para escribir código limpio, legible y fácil de mantener.",
+      "genres": ["Programación", "Ingeniería de Software"],
+      "publishedYear": 2008,
+      "pages": 464,
+      "language": "Inglés",
+      "coverUrl": "https://covers.openlibrary.org/b/id/9641651-L.jpg",
+      "available": true
+    },
+    {
+      "id": 2,
+      "title": "El programador pragmático",
+      "authors": ["Andrew Hunt", "David Thomas"],
+      "description": "Libro clásico con consejos prácticos sobre desarrollo de software, buenas prácticas y crecimiento profesional.",
+      "genres": ["Programación", "Ingeniería de Software"],
+      "publishedYear": 1999,
+      "pages": 352,
+      "language": "Inglés",
+      "coverUrl": "https://covers.openlibrary.org/b/id/10523338-L.jpg",
+      "available": true
+    },
+    {
+      "id": 3,
+      "title": "JavaScript: Las partes buenas",
+      "authors": ["Douglas Crockford"],
+      "description": "Un análisis de las mejores características de JavaScript y cómo utilizarlas para escribir mejor código.",
+      "genres": ["Programación", "JavaScript"],
+      "publishedYear": 2008,
+      "pages": 176,
+      "language": "Inglés",
+      "coverUrl": "https://covers.openlibrary.org/b/id/8091016-L.jpg",
+      "available": false
+    },
+    {
+      "id": 4,
+      "title": "You Don’t Know JS Yet",
+      "authors": ["Kyle Simpson"],
+      "description": "Un análisis en profundidad de los mecanismos internos del lenguaje JavaScript.",
+      "genres": ["Programación", "JavaScript"],
+      "publishedYear": 2020,
+      "pages": 143,
+      "language": "Inglés",
+      "coverUrl": "https://covers.openlibrary.org/b/id/11153239-L.jpg",
+      "available": true
+    },
+    {
+      "id": 5,
+      "title": "Patrones de diseño",
+      "authors": ["Erich Gamma", "Richard Helm", "Ralph Johnson", "John Vlissides"],
+      "description": "Presenta soluciones reutilizables a problemas comunes en el diseño de software orientado a objetos.",
+      "genres": ["Programación", "Arquitectura de Software"],
+      "publishedYear": 1994,
+      "pages": 395,
+      "language": "Inglés",
+      "coverUrl": "https://covers.openlibrary.org/b/id/8231996-L.jpg",
+      "available": true
+    },
+    {
+      "id": 6,
+      "title": "Eloquent JavaScript",
+      "authors": ["Marijn Haverbeke"],
+      "description": "Una introducción moderna a la programación utilizando JavaScript, con ejemplos y ejercicios prácticos.",
+      "genres": ["Programación", "JavaScript"],
+      "publishedYear": 2018,
+      "pages": 472,
+      "language": "Inglés",
+      "coverUrl": "https://covers.openlibrary.org/b/id/10442565-L.jpg",
+      "available": true
+    }
+  ],
+  "reviews": [
+    {
+      "id": 1,
+      "bookId": 1,
+      "user": "Javier",
+      "rating": 5,
+      "text": "Un libro muy útil para aprender a escribir código más limpio y profesional.",
+      "createdAt": "2025-01-10"
+    },
+    {
+      "id": 2,
+      "bookId": 3,
+      "user": "Ana",
+      "rating": 4,
+      "text": "Corto pero muy interesante. Te hace replantearte cómo usas JavaScript.",
+      "createdAt": "2025-01-15"
+    }
+  ]
+}
