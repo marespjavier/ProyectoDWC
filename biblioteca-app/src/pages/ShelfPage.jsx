@@ -6,6 +6,7 @@ export function ShelfPage() {
   const { books, loading, error } = useBooks();
   const shelf = useShelf();
 
+
   if (loading) return <p>Cargando estantería…</p>;
   if (error) return <p style={{ color: "crimson" }}>Error: {error}</p>;
 
@@ -20,7 +21,7 @@ export function ShelfPage() {
   }
 
   // join: map por id para buscar rápido
-  const bookById = new Map(books.map((b) => [b.id, b]));
+  const bookById = new Map(books.map((b) => [Number(b.id), b]));
 
   // agrupamos por estado
   const groups = {
@@ -30,7 +31,7 @@ export function ShelfPage() {
   };
 
   for (const item of shelf.items) {
-    const book = bookById.get(item.bookId);
+    const book = bookById.get(Number(item.bookId));
     if (book) groups[item.status].push({ item, book });
   }
 

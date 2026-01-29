@@ -1,6 +1,8 @@
 'use strict';
 
 import { API_URL } from "./config.js";
+import { Book } from "../models/Book.js";
+
 
 //Función helper para url y opciones
 async function fetchJson(url, options) {
@@ -23,12 +25,17 @@ async function fetchJson(url, options) {
 
 //Obtener libros
 export async function getBooks() {
-    return fetchJson(`${API_URL}/books`);
+  const data = await fetchJson(`${API_URL}/books`);
+  //utilizando la clase Book
+  return data.map((b) => new Book(b));
 }
+
 
 //Obtener libro por ID
 export async function getBookById(id) {
-    return fetchJson(`${API_URL}/books/${id}`);
+    const data = await fetchJson(`${API_URL}/books/${id}`);
+    //utilizando la clase Book
+    return new Book(data);
 }
 
 //Obtener reseña por ID de libro

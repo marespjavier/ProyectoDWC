@@ -26,6 +26,7 @@ export function BookDetailPage() {
   return (
     <div>
       <h1>{book.title}</h1>
+      <p>{book.shortDescription(300)}</p>
 
       <h2>Estantería</h2>
       {currentStatus ? (
