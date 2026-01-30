@@ -1,3 +1,16 @@
+# Biblioteca Online – Frontend
+
+Aplicación frontend desarrollada con React y Vite que consume una API REST simulada para mostrar un catálogo de libros, gestionar una estantería personal y añadir reseñas.
+
+## Funcionalidades principales
+
+- Listado de libros desde API
+- Búsqueda, filtros y ordenación
+- Detalle de libro
+- Creación de reseñas con validación
+- Estantería personal persistente (localStorage)
+- Navegación mediante rutas dinámicas (React Router)
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
