@@ -64,18 +64,33 @@ Ejemplo:
       "publishedYear": 2008,
       "pages": 464,
       "language": "Inglés",
-      "coverUrl": "https://covers.openlibrary.org/b/id/9641651-L.jpg",
+      
       "available": true
     }
+  ],
+
+  "reviews": [
+      {
+        "id": 1,
+        "bookId": 1,
+        "user": "Javier",
+        "rating": 5,
+        "text": "Un libro muy útil para aprender a escribir código más limpio y profesional.",
+        "createdAt": "2025-01-10"
+      },
   ]
-} 
+}
+
 ```
 Cada clave del objeto (`books`, en este caso) se convierte automáticamente en un endpoint REST.
 
 ## Endpoints disponibles
 
 - GET /books
+- POST /books
+- PATH /books/:id
+- DELETE /books/:id
 - GET /books/:id
 - GET /reviews
-- GET /reviews?bookId=:id
+- GET /reviews?bookId=:bookId
 - POST /reviews

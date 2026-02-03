@@ -22,7 +22,7 @@ export function BooksPage() {
     <div>
       <h1>Biblioteca</h1>
       <div
-        style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 16 }}
+        className="controls"
       >
         <input
           placeholder="Buscar por título, autor o palabra clave..."

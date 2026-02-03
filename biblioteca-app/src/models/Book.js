@@ -8,7 +8,6 @@ export class Book {
     this.publishedYear = data?.publishedYear ?? null;
     this.pages = data?.pages ?? null;
     this.language = data?.language ?? "—";
-    this.coverUrl = data?.coverUrl ?? "";
     this.available = Boolean(data?.available);
   }
 
