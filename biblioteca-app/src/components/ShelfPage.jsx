@@ -2,10 +2,15 @@ import { useBooks } from "../hooks/useBooks";
 import { useShelf } from "../context/ShelfContext";
 import { Link } from "react-router-dom";
 
+/*
+  Página "Mi estantería".
+  Combina los items guardados en localStorage con los libros de la API
+  para poder mostrar título y enlace al detalle.
+*/
+
 export function ShelfPage() {
   const { books, loading, error } = useBooks();
   const shelf = useShelf();
-
 
   if (loading) return <p>Cargando estantería…</p>;
   if (error) return <p style={{ color: "crimson" }}>Error: {error}</p>;
@@ -27,7 +32,7 @@ export function ShelfPage() {
   const groups = {
     favorito: [],
     pendiente: [],
-    leido: []
+    leido: [],
   };
 
   for (const item of shelf.items) {

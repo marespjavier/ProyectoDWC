@@ -1,5 +1,10 @@
 import { Link } from "react-router-dom";
 
+/*
+  Tarjeta de libro usada en listados.
+  Muestra datos mínimos y un enlace al detalle.
+*/
+
 export function BookCard({ book }) {
   return (
     <article className="card">
@@ -7,10 +12,6 @@ export function BookCard({ book }) {
 
       <p>
         <strong>Autor/es:</strong> {book.authorsText}
-      </p>
-
-      <p>
-        <span className="badge">{book.availabilityText}</span>
       </p>
 
       <Link to={`/book/${book.id}`}>Ver detalle →</Link>

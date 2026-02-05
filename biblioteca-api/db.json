@@ -3,67 +3,42 @@
     {
       "id": 1,
       "title": "Clean Code",
-      "authors": [
-        "Robert C. Martin"
-      ],
+      "authors": ["Robert C. Martín"],
       "description": "Un manual de buenas prácticas para escribir código limpio, legible y fácil de mantener.",
-      "genres": [
-        "Programación",
-        "Ingeniería de Software"
-      ],
-      "publishedYear": 2008,
-      "pages": 464,
-      "language": "Alemán",
-      "available": true
+      "genres": ["Programación", "Ingeniería de Software"],
+      "publishedYear": 2020,
+      "pages": 460,
+      "language": "Inglés"
     },
     {
       "id": 2,
       "title": "El programador pragmático",
-      "authors": [
-        "Andrew Hunt",
-        "David Thomas"
-      ],
+      "authors": ["Andrew Hunt", "David Thomas"],
       "description": "Libro clásico con consejos prácticos sobre desarrollo de software, buenas prácticas y crecimiento profesional.",
-      "genres": [
-        "Programación",
-        "Ingeniería de Software"
-      ],
+      "genres": ["Programación", "Ingeniería de Software"],
       "publishedYear": 1999,
       "pages": 352,
-      "language": "Inglés",
-      "available": true
+      "language": "Inglés"
     },
     {
       "id": 3,
       "title": "JavaScript: Las partes buenas",
-      "authors": [
-        "Douglas Crockford"
-      ],
+      "authors": ["Douglas Crockford"],
       "description": "Un análisis de las mejores características de JavaScript y cómo utilizarlas para escribir mejor código.",
-      "genres": [
-        "Programación",
-        "JavaScript"
-      ],
+      "genres": ["Programación", "JavaScript"],
       "publishedYear": 2008,
       "pages": 176,
-      "language": "Inglés",
-      "available": false
+      "language": "Inglés"
     },
     {
       "id": 4,
       "title": "You Don’t Know JS Yet",
-      "authors": [
-        "Kyle Simpson"
-      ],
+      "authors": ["Kyle Simpson"],
       "description": "Un análisis en profundidad de los mecanismos internos del lenguaje JavaScript.",
-      "genres": [
-        "Programación",
-        "JavaScript"
-      ],
+      "genres": ["Programación", "JavaScript"],
       "publishedYear": 2020,
       "pages": 143,
-      "language": "Inglés",
-      "available": true
+      "language": "Inglés"
     },
     {
       "id": 5,
@@ -75,30 +50,20 @@
         "John Vlissides"
       ],
       "description": "Presenta soluciones reutilizables a problemas comunes en el diseño de software orientado a objetos.",
-      "genres": [
-        "Programación",
-        "Arquitectura de Software"
-      ],
+      "genres": ["Programación", "Arquitectura de Software"],
       "publishedYear": 1994,
       "pages": 395,
-      "language": "Inglés",
-      "available": true
+      "language": "Inglés"
     },
     {
       "id": 6,
       "title": "Eloquent JavaScript",
-      "authors": [
-        "Marijn Haverbeke"
-      ],
+      "authors": ["Marijn Haverbeke"],
       "description": "Una introducción moderna a la programación utilizando JavaScript, con ejemplos y ejercicios prácticos.",
-      "genres": [
-        "Programación",
-        "JavaScript"
-      ],
+      "genres": ["Programación", "JavaScript"],
       "publishedYear": 2018,
       "pages": 472,
-      "language": "Inglés",
-      "available": true
+      "language": "Inglés"
     }
   ],
   "reviews": [

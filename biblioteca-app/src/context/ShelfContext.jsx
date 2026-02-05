@@ -5,6 +5,11 @@ const ShelfContext = createContext(null);
 const STORAGE_KEY = "shelf";
 const VALID_STATUSES = new Set(["favorito", "pendiente", "leido"]);
 
+/*
+  Contexto de "estantería".
+  Guarda en localStorage el estado de cada libro (pendiente / leído / favorito).
+*/
+
 function todayISO() {
   return new Date().toISOString().slice(0, 10);
 }
@@ -15,9 +20,11 @@ function loadShelf() {
     if (!raw) return [];
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
-    // limpieza básica por si hay basura
+    // limpieza básica
     return parsed
-      .filter((x) => typeof x?.bookId === "number" && VALID_STATUSES.has(x?.status))
+      .filter(
+        (x) => typeof x?.bookId === "number" && VALID_STATUSES.has(x?.status),
+      )
       .map((x) => ({
         bookId: x.bookId,
         status: x.status,
@@ -67,10 +74,12 @@ export function ShelfProvider({ children }) {
 
   const value = useMemo(
     () => ({ items, upsert, remove, setStatus, getStatus, isInShelf }),
-    [items]
+    [items],
   );
 
-  return <ShelfContext.Provider value={value}>{children}</ShelfContext.Provider>;
+  return (
+    <ShelfContext.Provider value={value}>{children}</ShelfContext.Provider>
+  );
 }
 
 export function useShelf() {

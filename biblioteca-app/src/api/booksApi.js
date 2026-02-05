@@ -1,9 +1,8 @@
-'use strict';
+"use strict";
 //URL base de la API (json-server en local) en fichero config API_URL
 import { API_URL } from "./config.js";
 //Importamos la clase Book para trabajar con ella
 import { Book } from "../models/Book.js";
-
 
 /*
   Función genérica para hacer peticiones HTTP.
@@ -16,7 +15,7 @@ async function request(path, options) {
   try {
     data = await response.json();
   } catch {
-      // Si no hay JSON, dejamos data como null
+    // Si no hay JSON, dejamos data como null
   }
 
   if (!response.ok) {
@@ -37,15 +36,14 @@ export async function getBooks() {
   return data.map((b) => new Book(b));
 }
 
-
 /*
   GET /books/:id
   Obtiene el libro con la id especificada
 */
 export async function getBookById(id) {
-    const data = await request(`${API_URL}/books/${id}`);
-    //utilizando la clase Book
-    return new Book(data);
+  const data = await request(`${API_URL}/books/${id}`);
+  //utilizando la clase Book
+  return new Book(data);
 }
 
 /*
@@ -55,7 +53,7 @@ export async function getBookById(id) {
 export async function createBook(book) {
   const data = await request(`${API_URL}/books`, {
     method: "POST",
-    headers: {"Content-Type": "application/json"},
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(book),
   });
   return new Book(data);
@@ -65,12 +63,12 @@ export async function createBook(book) {
   PATCH /books/:id
   Modifica solo algunos campos de un libro existente.
 */
-export async function updateBook(id,book) {
+export async function updateBook(id, book) {
   const data = await request(`${API_URL}/books/${id}`, {
     method: "PATCH",
-    headers: {"Content-Type": "application/json"},
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(book),
-  })
+  });
   return new Book(data);
 }
 
@@ -79,9 +77,9 @@ export async function updateBook(id,book) {
   Borra un libro del servidor.
 */
 export function deleteBook(id) {
-  return request(`${API_URL}/books/${id}`, { 
-      method: "DELETE" 
-    });
+  return request(`${API_URL}/books/${id}`, {
+    method: "DELETE",
+  });
 }
 
 /*
@@ -89,7 +87,7 @@ export function deleteBook(id) {
   Obtiene las reseñas asociadas a un libro  
 */
 export function getReviewsByBookId(bookId) {
-    return request(`${API_URL}/reviews?bookId=${bookId}`);
+  return request(`${API_URL}/reviews?bookId=${bookId}`);
 }
 
 /*
@@ -97,10 +95,10 @@ export function getReviewsByBookId(bookId) {
   Creación de una reseña para un libro
 */
 export async function createReview(review) {
-    //review ejemplo: { bookId, user, rating, text, createdAt}
-    return request(`${API_URL}/reviews`, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(review),
-    });
+  //review ejemplo: { bookId, user, rating, text, createdAt}
+  return request(`${API_URL}/reviews`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(review),
+  });
 }

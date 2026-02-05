@@ -1,3 +1,8 @@
+/*
+  Modelo Book.
+  Centraliza pequeñas transformaciones y getters para mostrar datos en la UI.
+*/
+
 export class Book {
   constructor(data) {
     this.id = Number(data?.id);
@@ -8,7 +13,6 @@ export class Book {
     this.publishedYear = data?.publishedYear ?? null;
     this.pages = data?.pages ?? null;
     this.language = data?.language ?? "—";
-    this.available = Boolean(data?.available);
   }
 
   //Métodos / getters
@@ -22,10 +26,6 @@ export class Book {
 
   get genresText() {
     return this.genres.length ? this.genres.join(" · ") : "—";
-  }
-
-  get availabilityText() {
-    return this.available ? "Disponible" : "No disponible";
   }
 
   shortDescription(max = 140) {

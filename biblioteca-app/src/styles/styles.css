@@ -111,12 +111,40 @@ button:disabled {
   cursor: not-allowed;
 }
 
+/*
+  Estado "activo" para botones de selección (por ejemplo, estantería).
+  Se usa cuando el estado actual coincide con la opción seleccionada.
+*/
+.btn-active {
+  background: #111;
+  color: #fff;
+  border: 1px solid #111;
+}
+
 /* Botón secundario */
 .btn-secondary {
   background: #fff;
   color: #111;
   border: 1px solid #d1d5db;
 }
+
+a.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  color: #111;
+  text-decoration: none;
+}
+
+a.btn-secondary:hover {
+  text-decoration: none; /* para que no subraye al hover */
+}
+
+
 
 .badge {
   display: inline-block;

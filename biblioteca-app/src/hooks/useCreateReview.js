@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { createReview } from "../api/booksApi";
 
+/*
+  Hook para crear reseñas.
+  Expone "saveReview" y estados (saving/error) para mostrar feedback en la UI.
+*/
+
 export function useCreateReview() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);

@@ -90,11 +90,6 @@ export function BookDetailPage() {
             <small>Año</small>
             <div>{book.publishedYear ?? "—"}</div>
           </div>
-
-          <div className="meta-item">
-            <small>Disponibilidad</small>
-            <span className="badge">{book.availabilityText}</span>
-          </div>
         </div>
       </header>
       {/* Acciones principales del libro */}

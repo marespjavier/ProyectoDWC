@@ -1,5 +1,10 @@
 import { useMemo, useState } from "react";
 
+/*
+  Hook personalizado para filtrar y ordenar libros.
+  Mantiene los filtros en estado local y devuelve la lista filtrada.
+*/
+
 export function useBookFilters(books) {
   const [filters, setFilters] = useState({
     query: "",
@@ -28,28 +33,29 @@ export function useBookFilters(books) {
       result = result.filter((b) =>
         typeof b.matchesQuery === "function"
           ? b.matchesQuery(q)
-          : `${b.title ?? ""} ${(Array.isArray(b.authors) ? b.authors.join(" ") : "")}`
+          : `${b.title ?? ""} ${Array.isArray(b.authors) ? b.authors.join(" ") : ""}`
               .toLowerCase()
-              .includes(q.toLowerCase())
+              .includes(q.toLowerCase()),
       );
-    }
-
-    // Solo disponibles
-    if (filters.onlyAvailable) {
-      result = result.filter((b) => b.available === true);
     }
 
     // Género
     if (filters.genre !== "all") {
-      result = result.filter((b) => Array.isArray(b.genres) && b.genres.includes(filters.genre));
+      result = result.filter(
+        (b) => Array.isArray(b.genres) && b.genres.includes(filters.genre),
+      );
     }
 
     // Ordenación
     result.sort((a, b) => {
-      if (filters.sort === "title-asc") return (a.title ?? "").localeCompare(b.title ?? "");
-      if (filters.sort === "title-desc") return (b.title ?? "").localeCompare(a.title ?? "");
-      if (filters.sort === "year-asc") return (a.publishedYear ?? 0) - (b.publishedYear ?? 0);
-      if (filters.sort === "year-desc") return (b.publishedYear ?? 0) - (a.publishedYear ?? 0);
+      if (filters.sort === "title-asc")
+        return (a.title ?? "").localeCompare(b.title ?? "");
+      if (filters.sort === "title-desc")
+        return (b.title ?? "").localeCompare(a.title ?? "");
+      if (filters.sort === "year-asc")
+        return (a.publishedYear ?? 0) - (b.publishedYear ?? 0);
+      if (filters.sort === "year-desc")
+        return (b.publishedYear ?? 0) - (a.publishedYear ?? 0);
       return 0;
     });
 

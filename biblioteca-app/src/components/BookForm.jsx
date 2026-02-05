@@ -5,16 +5,21 @@ import { useState } from "react";
   No conoce la API: solo valida y devuelve el objeto libro.
 */
 export function BookForm({ onAdd, disabled, initialValues, submitText }) {
+  // Año máximo permitido (se calcula en tiempo real para evitar "números mágicos")
+  const currentYear = new Date().getFullYear();
+
   // Estados inicializados desde initialValues (si existen)
   const [title, setTitle] = useState(initialValues?.title ?? "");
   const [authors, setAuthors] = useState(initialValues?.authorsText ?? "");
-  const [description, setDescription] = useState(initialValues?.description ?? "");
+  const [description, setDescription] = useState(
+    initialValues?.description ?? "",
+  );
   const [genres, setGenres] = useState(initialValues?.genresText ?? "");
   const [publishedYear, setPublishedYear] = useState(
-    initialValues?.publishedYear ? String(initialValues.publishedYear) : ""
+    initialValues?.publishedYear ? String(initialValues.publishedYear) : "",
   );
   const [pages, setPages] = useState(
-    initialValues?.pages ? String(initialValues.pages) : ""
+    initialValues?.pages ? String(initialValues.pages) : "",
   );
   const [language, setLanguage] = useState(initialValues?.language ?? "");
 
@@ -37,25 +42,51 @@ export function BookForm({ onAdd, disabled, initialValues, submitText }) {
     if (!g) return setFormError("Debes indicar al menos un género.");
     if (!l) return setFormError("El idioma es obligatorio.");
 
-    if (t.length < 4) return setFormError("El título debe tener al menos 4 caracteres.");
-    if (d.length < 8) return setFormError("La descripción debe tener al menos 8 caracteres.");
-    if (l.length < 2) return setFormError("El idioma debe tener al menos 2 caracteres.");
+    if (t.length < 4)
+      return setFormError("El título debe tener al menos 4 caracteres.");
+    if (d.length < 8)
+      return setFormError("La descripción debe tener al menos 8 caracteres.");
+    if (l.length < 2)
+      return setFormError("El idioma debe tener al menos 2 caracteres.");
 
-    if (!pages.trim()) return setFormError("El número de páginas es obligatorio.");
+    if (!pages.trim())
+      return setFormError("El número de páginas es obligatorio.");
 
     const pagesNum = Number(pages);
-    if (Number.isNaN(pagesNum)) return setFormError("Las páginas deben ser un número.");
-    if (pagesNum < 20) return setFormError("El libro debe tener al menos 20 páginas.");
+    if (Number.isNaN(pagesNum))
+      return setFormError("Las páginas deben ser un número.");
+    if (pagesNum < 20)
+      return setFormError("El libro debe tener al menos 20 páginas.");
 
     let yearValue = null;
     if (publishedYear.trim()) {
       const yearNum = Number(publishedYear);
-      if (Number.isNaN(yearNum)) return setFormError("El año debe ser numérico.");
+
+      if (Number.isNaN(yearNum)) {
+        return setFormError("El año de publicación debe ser un número.");
+      }
+
+      if (yearNum < 1800) {
+        return setFormError(
+          "El año es demasiado antiguo para esta biblioteca.",
+        );
+      }
+
+      if (yearNum > new Date().getFullYear()) {
+        return setFormError("El año de publicación no puede ser futuro.");
+      }
+
       yearValue = yearNum;
     }
 
-    const authorsArr = a.split(",").map(x => x.trim()).filter(Boolean);
-    const genresArr = g.split(",").map(x => x.trim()).filter(Boolean);
+    const authorsArr = a
+      .split(",")
+      .map((x) => x.trim())
+      .filter(Boolean);
+    const genresArr = g
+      .split(",")
+      .map((x) => x.trim())
+      .filter(Boolean);
 
     const book = {
       title: t,
@@ -83,37 +114,70 @@ export function BookForm({ onAdd, disabled, initialValues, submitText }) {
 
       <div className="form-row">
         <label>Título</label>
-        <input value={title} onChange={e => setTitle(e.target.value)} disabled={disabled} />
+        <input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          disabled={disabled}
+        />
       </div>
 
       <div className="form-row">
         <label>Autores (separados por comas)</label>
-        <input value={authors} onChange={e => setAuthors(e.target.value)} disabled={disabled} />
+        <input
+          value={authors}
+          onChange={(e) => setAuthors(e.target.value)}
+          disabled={disabled}
+        />
       </div>
 
       <div className="form-row">
         <label>Descripción</label>
-        <textarea value={description} onChange={e => setDescription(e.target.value)} rows={4} disabled={disabled} />
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          rows={4}
+          disabled={disabled}
+        />
       </div>
 
       <div className="form-row">
         <label>Géneros</label>
-        <input value={genres} onChange={e => setGenres(e.target.value)} disabled={disabled} />
+        <input
+          value={genres}
+          onChange={(e) => setGenres(e.target.value)}
+          disabled={disabled}
+        />
       </div>
 
       <div className="form-row">
         <label>Año de publicación</label>
-        <input type="number" value={publishedYear} onChange={e => setPublishedYear(e.target.value)} disabled={disabled} />
+        <input
+          type="number"
+          min={1}
+          max={currentYear}
+          value={publishedYear}
+          onChange={(e) => setPublishedYear(e.target.value)}
+          disabled={disabled}
+        />
       </div>
 
       <div className="form-row">
         <label>Páginas</label>
-        <input type="number" value={pages} onChange={e => setPages(e.target.value)} disabled={disabled} />
+        <input
+          type="number"
+          value={pages}
+          onChange={(e) => setPages(e.target.value)}
+          disabled={disabled}
+        />
       </div>
 
       <div className="form-row">
         <label>Idioma</label>
-        <input value={language} onChange={e => setLanguage(e.target.value)} disabled={disabled} />
+        <input
+          value={language}
+          onChange={(e) => setLanguage(e.target.value)}
+          disabled={disabled}
+        />
       </div>
 
       <div className="form-actions">

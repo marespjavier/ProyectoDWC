@@ -1,3 +1,8 @@
+/*
+  Página 404.
+  Se muestra cuando ninguna ruta coincide.
+*/
+
 export function NotFoundPage() {
   return (
     <div>

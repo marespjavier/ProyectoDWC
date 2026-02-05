@@ -7,18 +7,32 @@ import { ShelfPage } from "./components/ShelfPage";
 import { ReviewPage } from "./components/ReviewPage";
 import { NotFoundPage } from "./components/NotFoundPage";
 
+/*
+  Componente raíz de la aplicación.
+  Define la navegación principal y las rutas (React Router).
+*/
 
 function App() {
   return (
-    <> 
+    <>
       <nav className="nav">
-        <NavLink to="/" end className={({ isActive }) => (isActive ? "active" : "")}>
+        <NavLink
+          to="/"
+          end
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
           Inicio
         </NavLink>
-        <NavLink to="/shelf" className={({ isActive }) => (isActive ? "active" : "")}>
+        <NavLink
+          to="/shelf"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
           Mi estantería
         </NavLink>
-        <NavLink to="/books/new" className={({isActive}) => (isActive ? "active": "")}>
+        <NavLink
+          to="/books/new"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
           Añadir libro
         </NavLink>
       </nav>
@@ -26,7 +40,7 @@ function App() {
       <main className="container">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/books/new" element={<NewBookPage/>} />
+          <Route path="/books/new" element={<NewBookPage />} />
           <Route path="/book/:id/edit" element={<EditBookPage />} />
           <Route path="/book/:id" element={<BookDetailPage />} />
           <Route path="/book/:id/review" element={<ReviewPage />} />

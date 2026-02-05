@@ -2,6 +2,12 @@ import { useBooks } from "../hooks/useBooks";
 import { BookList } from "./BookList";
 import { useBookFilters } from "../hooks/useBooksFilters";
 
+/*
+  Página de listado de libros.
+  - Carga libros con useBooks().
+  - Aplica filtros/ordenación con useBookFilters().
+*/
+
 export function BooksPage() {
   const { books, loading, error, reload } = useBooks();
   const { filters, setFilters, genres, filteredBooks, resetFilters } =
@@ -21,9 +27,7 @@ export function BooksPage() {
   return (
     <div>
       <h1>Biblioteca</h1>
-      <div
-        className="controls"
-      >
+      <div className="controls">
         <input
           placeholder="Buscar por título, autor o palabra clave..."
           value={filters.query}
@@ -59,17 +63,6 @@ export function BooksPage() {
             <option value="year-desc">Año (nuevo → antiguo)</option>
             <option value="year-asc">Año (antiguo → nuevo)</option>
           </select>
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            checked={filters.onlyAvailable}
-            onChange={(e) =>
-              setFilters((f) => ({ ...f, onlyAvailable: e.target.checked }))
-            }
-          />{" "}
-          Solo disponibles
         </label>
 
         <button onClick={resetFilters}>Limpiar filtros</button>

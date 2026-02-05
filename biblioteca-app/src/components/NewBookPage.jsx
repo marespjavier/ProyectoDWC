@@ -3,6 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { BookForm } from "./BookForm";
 import { createBook } from "../api/booksApi";
 
+/*
+  Página de creación de libro.
+  Reutiliza <BookForm/> y envía los datos a la API con createBook().
+*/
+
 export function NewBookPage() {
   const navigate = useNavigate();
   const [saving, setSaving] = useState(false);

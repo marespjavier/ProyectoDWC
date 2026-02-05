@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { getBookById, getReviewsByBookId } from "../api/booksApi";
 
+/*
+  Hook personalizado: carga el detalle de un libro + sus reseñas.
+  Se encarga de estados de carga, error y cancelación al desmontar.
+*/
+
 export function useBookDetail(bookId) {
   const [book, setBook] = useState(null);
   const [reviews, setReviews] = useState([]);

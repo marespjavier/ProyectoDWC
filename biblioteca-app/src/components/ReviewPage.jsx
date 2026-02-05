@@ -2,6 +2,11 @@ import { useMemo, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useCreateReview } from "../hooks/useCreateReview";
 
+/*
+  Página para crear una reseña.
+  Valida campos en el cliente y, si todo va bien, guarda la reseña en la API.
+*/
+
 export function ReviewPage() {
   const { id } = useParams(); // id del libro (string)
   const bookId = Number(id); // lo guardamos como number para JSON
@@ -68,9 +73,7 @@ export function ReviewPage() {
         {/* Error global de la API */}
         {error && <div className="form-error">Error al guardar: {error}</div>}
 
-        {/* Error global de validación (si quisieras uno solo).
-          En tu caso tienes errores por campo, así que no hace falta.
-      */}
+        {/* Error global de validación*/}
 
         <div className="form-row">
           <label>Nombre</label>
