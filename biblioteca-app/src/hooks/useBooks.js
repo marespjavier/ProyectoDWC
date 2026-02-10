@@ -11,7 +11,7 @@ export function useBooks() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true); // empieza en true para la primera carga
   const [error, setError] = useState(null);
-  const [reloadKey, setReloadKey] = useState(0); // truco simple para forzar recarga
+  const [reloadKey, setReloadKey] = useState(0); // forzar recarga
 
   useEffect(() => {
     let cancelled = false;
