@@ -1,49 +1,94 @@
-import { useEffect, useState } from "react";
-import { getBookById, getReviewsByBookId } from "../api/booksApi";
+import { useEffect, useState } from "react"
+
+import { getBookById, getReviewsByBookId } from "../api/booksApi"
 
 /*
-  Hook personalizado: carga el detalle de un libro + sus reseñas.
-  Se encarga de estados de carga, error y cancelación al desmontar.
+|--------------------------------------------------------------------------
+| Hook detalle libro
+|--------------------------------------------------------------------------
 */
 
 export function useBookDetail(bookId) {
-  const [book, setBook] = useState(null);
-  const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  /*
+  |--------------------------------------------------------------------------
+  | Estados
+  |--------------------------------------------------------------------------
+  */
+
+  const [book, setBook] = useState(null)
+
+  const [reviews, setReviews] = useState([])
+
+  const [loading, setLoading] = useState(true)
+
+  const [error, setError] = useState(null)
+
+  /*
+  |--------------------------------------------------------------------------
+  | Effect
+  |--------------------------------------------------------------------------
+  */
 
   useEffect(() => {
-    if (!bookId) return;
+    if (!bookId) return
 
-    let cancelled = false;
+    let cancelled = false
 
     async function load() {
-      setLoading(true);
-      setError(null);
+      setLoading(true)
+
+      setError(null)
 
       try {
-        const bookData = await getBookById(bookId);
-        const reviewsData = await getReviewsByBookId(bookId);
+        /*
+        |--------------------------------------------------------------------------
+        | Libro
+        |--------------------------------------------------------------------------
+        */
+
+        const bookData = await getBookById(bookId)
+
+        /*
+        |--------------------------------------------------------------------------
+        | Reviews
+        |--------------------------------------------------------------------------
+        */
+
+        const reviewsData = await getReviewsByBookId(bookId)
 
         if (!cancelled) {
-          setBook(bookData);
-          setReviews(reviewsData);
+          setBook(bookData)
+
+          setReviews(reviewsData)
         }
       } catch (err) {
         if (!cancelled) {
-          setError(err instanceof Error ? err.message : "Error desconocido");
+          setError(err instanceof Error ? err.message : "Error desconocido")
         }
       } finally {
-        if (!cancelled) setLoading(false);
+        if (!cancelled) {
+          setLoading(false)
+        }
       }
     }
 
-    load();
+    load()
 
     return () => {
-      cancelled = true;
-    };
-  }, [bookId]);
+      cancelled = true
+    }
+  }, [bookId])
 
-  return { book, reviews, loading, error };
+  /*
+  |--------------------------------------------------------------------------
+  | Return
+  |--------------------------------------------------------------------------
+  */
+
+  return {
+    book,
+    reviews,
+    loading,
+    error,
+  }
 }

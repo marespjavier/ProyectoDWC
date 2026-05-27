@@ -1,190 +1,288 @@
-import { useState } from "react";
+import { useState, useEffect, act } from "react"
+
+import { getAutores } from "../api/autoresApi"
+
+import { getCategorias } from "../api/categoriasApi"
 
 /*
-  Formulario reutilizable para crear o editar libros.
-  No conoce la API: solo valida y devuelve el objeto libro.
+|--------------------------------------------------------------------------
+| Formulario libros
+|--------------------------------------------------------------------------
+|
+| - Crear libro
+| - Editar libro
+| - Cargar autores y categorías dinámicamente
+|
 */
-export function BookForm({ onAdd, disabled, initialValues, submitText }) {
-  // Año máximo permitido (se calcula en tiempo real para evitar "números mágicos")
-  const currentYear = new Date().getFullYear();
 
-  // Estados inicializados desde initialValues (si existen)
-  const [title, setTitle] = useState(initialValues?.title ?? "");
-  const [authors, setAuthors] = useState(initialValues?.authorsText ?? "");
+export function BookForm({ onAdd, disabled, initialValues, submitText }) {
+  const currentYear = new Date().getFullYear()
+
+  /*
+  |--------------------------------------------------------------------------
+  | Estados formulario
+  |--------------------------------------------------------------------------
+  */
+
+  const [title, setTitle] = useState(initialValues?.title ?? "")
+
   const [description, setDescription] = useState(
     initialValues?.description ?? "",
-  );
-  const [genres, setGenres] = useState(initialValues?.genresText ?? "");
+  )
+
+  const [isbn, setIsbn] = useState(initialValues?.isbn ?? "")
+
   const [publishedYear, setPublishedYear] = useState(
     initialValues?.publishedYear ? String(initialValues.publishedYear) : "",
-  );
-  const [pages, setPages] = useState(
-    initialValues?.pages ? String(initialValues.pages) : "",
-  );
-  const [language, setLanguage] = useState(initialValues?.language ?? "");
+  )
 
-  const [formError, setFormError] = useState(null);
+  /*
+  |--------------------------------------------------------------------------
+  | Relaciones
+  |--------------------------------------------------------------------------
+  */
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setFormError(null);
+  const [authorId, setAuthorId] = useState(initialValues?.authorId ?? "")
 
-    const t = title.trim();
-    const a = authors.trim();
-    const d = description.trim();
-    const g = genres.trim();
-    const l = language.trim();
+  const [categoryId, setCategoryId] = useState(initialValues?.categoryId ?? "")
 
-    // Validaciones
-    if (!t) return setFormError("El título es obligatorio.");
-    if (!a) return setFormError("Debes indicar al menos un autor.");
-    if (!d) return setFormError("La descripción es obligatoria.");
-    if (!g) return setFormError("Debes indicar al menos un género.");
-    if (!l) return setFormError("El idioma es obligatorio.");
+  /*
+  |--------------------------------------------------------------------------
+  | Datos dinámicos
+  |--------------------------------------------------------------------------
+  */
 
-    if (t.length < 4)
-      return setFormError("El título debe tener al menos 4 caracteres.");
-    if (d.length < 8)
-      return setFormError("La descripción debe tener al menos 8 caracteres.");
-    if (l.length < 2)
-      return setFormError("El idioma debe tener al menos 2 caracteres.");
+  const [autores, setAutores] = useState([])
 
-    if (!pages.trim())
-      return setFormError("El número de páginas es obligatorio.");
+  const [categorias, setCategorias] = useState([])
 
-    const pagesNum = Number(pages);
-    if (Number.isNaN(pagesNum))
-      return setFormError("Las páginas deben ser un número.");
-    if (pagesNum < 20)
-      return setFormError("El libro debe tener al menos 20 páginas.");
+  /*
+  |--------------------------------------------------------------------------
+  | Estados auxiliares
+  |--------------------------------------------------------------------------
+  */
 
-    let yearValue = null;
-    if (publishedYear.trim()) {
-      const yearNum = Number(publishedYear);
+  const [formError, setFormError] = useState(null)
 
-      if (Number.isNaN(yearNum)) {
-        return setFormError("El año de publicación debe ser un número.");
+  /*
+  |--------------------------------------------------------------------------
+  | Cargar autores y categorías
+  |--------------------------------------------------------------------------
+  */
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const autoresData = await getAutores()
+
+        const categoriasData = await getCategorias()
+
+        setAutores(autoresData)
+
+        setCategorias(categoriasData)
+      } catch (err) {
+        console.error(err)
       }
-
-      if (yearNum < 1800) {
-        return setFormError(
-          "El año es demasiado antiguo para esta biblioteca.",
-        );
-      }
-
-      if (yearNum > new Date().getFullYear()) {
-        return setFormError("El año de publicación no puede ser futuro.");
-      }
-
-      yearValue = yearNum;
     }
 
-    const authorsArr = a
-      .split(",")
-      .map((x) => x.trim())
-      .filter(Boolean);
-    const genresArr = g
-      .split(",")
-      .map((x) => x.trim())
-      .filter(Boolean);
+    loadData()
+  }, [])
+
+  /*
+  |--------------------------------------------------------------------------
+  | Submit formulario
+  |--------------------------------------------------------------------------
+  */
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+
+    setFormError(null)
+
+    const t = title.trim()
+
+    const d = description.trim()
+
+    const i = isbn.trim()
+
+    /*
+    |--------------------------------------------------------------------------
+    | Validaciones
+    |--------------------------------------------------------------------------
+    */
+
+    if (!t) {
+      return setFormError("El título es obligatorio.")
+    }
+
+    if (!d) {
+      return setFormError("La descripción es obligatoria.")
+    }
+
+    if (!i) {
+      return setFormError("El ISBN es obligatorio.")
+    }
+
+    if (!authorId) {
+      return setFormError("Debes seleccionar un autor.")
+    }
+
+    if (!categoryId) {
+      return setFormError("Debes seleccionar una categoría.")
+    }
+
+    let yearValue = null
+
+    if (publishedYear.trim()) {
+      const yearNum = Number(publishedYear)
+
+      if (Number.isNaN(yearNum)) {
+        return setFormError("El año debe ser numérico.")
+      }
+
+      if (yearNum > currentYear) {
+        return setFormError("El año no puede ser futuro.")
+      }
+
+      yearValue = yearNum
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Objeto Laravel
+    |--------------------------------------------------------------------------
+    */
 
     const book = {
-      title: t,
-      authors: authorsArr,
-      description: d,
-      genres: genresArr,
-      publishedYear: yearValue,
-      pages: pagesNum,
-      language: l,
-      available: true,
-    };
+      titulo: t,
+
+      descripcion: d,
+
+      isbn: i,
+
+      anyo_publicacion: yearValue,
+
+      autor_id: Number(authorId),
+
+      categoria_id: Number(categoryId),
+    }
 
     try {
-      await onAdd(book);
+      await onAdd(book)
     } catch (err) {
-      setFormError(err?.message ?? "No se ha podido guardar el libro.");
+      setFormError(err?.message ?? "No se pudo guardar el libro.")
     }
   }
 
   return (
     <form className="form" onSubmit={handleSubmit}>
-      <h2>{submitText ?? "Guardar libro"}</h2>
+      <div className="form-layout">
+        <h2>{submitText ?? "Guardar libro"}</h2>
 
-      {formError && <div className="form-error">{formError}</div>}
+        {/* ERROR */}
 
-      <div className="form-row">
-        <label>Título</label>
-        <input
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          disabled={disabled}
-        />
-      </div>
+        {formError && <div className="form-error">{formError}</div>}
 
-      <div className="form-row">
-        <label>Autores (separados por comas)</label>
-        <input
-          value={authors}
-          onChange={(e) => setAuthors(e.target.value)}
-          disabled={disabled}
-        />
-      </div>
+        {/* TÍTULO */}
 
-      <div className="form-row">
-        <label>Descripción</label>
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          rows={4}
-          disabled={disabled}
-        />
-      </div>
+        <div className="form-row">
+          <label>Título</label>
 
-      <div className="form-row">
-        <label>Géneros</label>
-        <input
-          value={genres}
-          onChange={(e) => setGenres(e.target.value)}
-          disabled={disabled}
-        />
-      </div>
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            disabled={disabled}
+          />
+        </div>
 
-      <div className="form-row">
-        <label>Año de publicación</label>
-        <input
-          type="number"
-          min={1}
-          max={currentYear}
-          value={publishedYear}
-          onChange={(e) => setPublishedYear(e.target.value)}
-          disabled={disabled}
-        />
-      </div>
+        {/* ISBN */}
 
-      <div className="form-row">
-        <label>Páginas</label>
-        <input
-          type="number"
-          value={pages}
-          onChange={(e) => setPages(e.target.value)}
-          disabled={disabled}
-        />
-      </div>
+        <div className="form-row">
+          <label>ISBN</label>
 
-      <div className="form-row">
-        <label>Idioma</label>
-        <input
-          value={language}
-          onChange={(e) => setLanguage(e.target.value)}
-          disabled={disabled}
-        />
-      </div>
+          <input
+            value={isbn}
+            onChange={(e) => setIsbn(e.target.value)}
+            disabled={disabled}
+          />
+        </div>
 
-      <div className="form-actions">
-        <button type="submit" disabled={disabled}>
-          {submitText ?? "Guardar"}
-        </button>
+        {/* DESCRIPCIÓN */}
+
+        <div className="form-row">
+          <label>Descripción</label>
+
+          <textarea
+            rows={4}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            disabled={disabled}
+          />
+        </div>
+
+        {/* AÑO */}
+
+        <div className="form-row">
+          <label>Año publicación</label>
+
+          <input
+            type="number"
+            min={1800}
+            max={currentYear}
+            value={publishedYear}
+            onChange={(e) => setPublishedYear(e.target.value)}
+            disabled={disabled}
+          />
+        </div>
+
+        {/* AUTOR */}
+
+        <div className="form-row">
+          <label>Autor</label>
+
+          <select
+            value={authorId}
+            onChange={(e) => setAuthorId(e.target.value)}
+            disabled={disabled}
+          >
+            <option value="">Selecciona un autor</option>
+
+            {autores.map((autor) => (
+              <option key={autor.id} value={autor.id}>
+                {autor.nombre} {autor.apellido}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* CATEGORÍA */}
+
+        <div className="form-row">
+          <label>Categoría</label>
+
+          <select
+            value={categoryId}
+            onChange={(e) => setCategoryId(e.target.value)}
+            disabled={disabled}
+          >
+            <option value="">Selecciona una categoría</option>
+
+            {categorias.map((categoria) => (
+              <option key={categoria.id} value={categoria.id}>
+                {categoria.nombre}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* BOTÓN */}
+
+        <div className="form-actions">
+          <button type="submit" disabled={disabled}>
+            {submitText ?? "Guardar"}
+          </button>
+        </div>
       </div>
     </form>
-  );
+  )
 }

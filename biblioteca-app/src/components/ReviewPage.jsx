@@ -1,67 +1,139 @@
-import { useMemo, useState } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
-import { useCreateReview } from "../hooks/useCreateReview";
+import { useState } from "react"
+
+import { useNavigate, useParams, Link } from "react-router-dom"
+
+import { useCreateReview } from "../hooks/useCreateReview"
 
 /*
-  Página para crear una reseña.
-  Valida campos en el cliente y, si todo va bien, guarda la reseña en la API.
+|--------------------------------------------------------------------------
+| Página crear reseña
+|--------------------------------------------------------------------------
 */
 
 export function ReviewPage() {
-  const { id } = useParams(); // id del libro (string)
-  const bookId = Number(id); // lo guardamos como number para JSON
-  const navigate = useNavigate();
+  /*
+  |--------------------------------------------------------------------------
+  | Params
+  |--------------------------------------------------------------------------
+  */
 
-  const { saving, error, saveReview } = useCreateReview();
+  const { id } = useParams()
 
-  const [user, setUser] = useState("");
-  const [rating, setRating] = useState("5"); // lo guardo string y lo convierto al enviar
-  const [text, setText] = useState("");
+  const bookId = Number(id)
 
-  const [fieldErrors, setFieldErrors] = useState({});
+  const navigate = useNavigate()
+
+  /*
+  |--------------------------------------------------------------------------
+  | Usuario actual
+  |--------------------------------------------------------------------------
+  */
+
+  const currentUser = JSON.parse(localStorage.getItem("user"))
+
+  /*
+  |--------------------------------------------------------------------------
+  | Hook crear reseña
+  |--------------------------------------------------------------------------
+  */
+
+  const { saving, error, saveReview } = useCreateReview()
+
+  /*
+  |--------------------------------------------------------------------------
+  | Estados formulario
+  |--------------------------------------------------------------------------
+  */
+
+  const [rating, setRating] = useState("5")
+
+  const [text, setText] = useState("")
+
+  const [fieldErrors, setFieldErrors] = useState({})
+
+  /*
+  |--------------------------------------------------------------------------
+  | Validaciones
+  |--------------------------------------------------------------------------
+  */
 
   function validate() {
-    const errors = {};
+    const errors = {}
 
-    const userTrim = user.trim();
-    const textTrim = text.trim();
-    const ratingNum = Number(rating);
+    const textTrim = text.trim()
 
-    if (!userTrim) errors.user = "El nombre es obligatorio.";
-    else if (userTrim.length < 2)
-      errors.user = "El nombre debe tener al menos 2 caracteres.";
+    const ratingNum = Number(rating)
 
-    if (!Number.isFinite(ratingNum))
-      errors.rating = "La puntuación no es válida.";
-    else if (ratingNum < 1 || ratingNum > 5)
-      errors.rating = "La puntuación debe estar entre 1 y 5.";
+    /*
+    |--------------------------------------------------------------------------
+    | Rating
+    |--------------------------------------------------------------------------
+    */
 
-    if (!textTrim) errors.text = "La reseña es obligatoria.";
-    else if (textTrim.length < 20)
-      errors.text = "La reseña debe tener al menos 20 caracteres.";
+    if (!Number.isFinite(ratingNum)) {
+      errors.rating = "La puntuación no es válida."
+    } else if (ratingNum < 1 || ratingNum > 5) {
+      errors.rating = "La puntuación debe estar entre 1 y 5."
+    }
 
-    setFieldErrors(errors);
-    return Object.keys(errors).length === 0;
+    /*
+    |--------------------------------------------------------------------------
+    | Texto reseña
+    |--------------------------------------------------------------------------
+    */
+
+    if (!textTrim) {
+      errors.text = "La reseña es obligatoria."
+    } else if (textTrim.length < 20) {
+      errors.text = "La reseña debe tener al menos 20 caracteres."
+    }
+
+    setFieldErrors(errors)
+
+    return Object.keys(errors).length === 0
   }
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+  /*
+  |--------------------------------------------------------------------------
+  | Submit
+  |--------------------------------------------------------------------------
+  */
 
-    if (!validate()) return;
+  async function handleSubmit(e) {
+    e.preventDefault()
+
+    if (!validate()) return
+
+    /*
+    |--------------------------------------------------------------------------
+    | Review
+    |--------------------------------------------------------------------------
+    */
 
     const review = {
       bookId,
-      user: user.trim(),
-      rating: Number(rating),
-      text: text.trim(),
-      createdAt: new Date().toISOString().slice(0, 10), // YYYY-MM-DD
-    };
 
-    const created = await saveReview(review);
+      user: currentUser?.nombre ?? "Usuario",
+
+      userAvatar: currentUser?.avatar_url ?? null,
+
+      rating: Number(rating),
+
+      text: text.trim(),
+
+      createdAt: new Date().toISOString().slice(0, 10),
+    }
+
+    const created = await saveReview(review)
+
+    /*
+    |--------------------------------------------------------------------------
+    | Redirección
+    |--------------------------------------------------------------------------
+    */
 
     if (created) {
-      // volver al detalle
-      navigate(`/book/${bookId}`);
+      navigate(`/libro/${bookId}`)
     }
   }
 
@@ -70,24 +142,23 @@ export function ReviewPage() {
       <h1>Nueva reseña</h1>
 
       <form className="form" onSubmit={handleSubmit}>
-        {/* Error global de la API */}
+        {/* ERROR */}
+
         {error && <div className="form-error">Error al guardar: {error}</div>}
 
-        {/* Error global de validación*/}
+        {/* USUARIO */}
 
         <div className="form-row">
-          <label>Nombre</label>
-          <input
-            value={user}
-            onChange={(e) => setUser(e.target.value)}
-            disabled={saving}
-            placeholder="Tu nombre"
-          />
-          {fieldErrors.user && <div className="error">{fieldErrors.user}</div>}
+          <label>Usuario</label>
+
+          <input value={currentUser?.nombre ?? ""} disabled />
         </div>
+
+        {/* RATING */}
 
         <div className="form-row">
           <label>Puntuación (1-5)</label>
+
           <input
             type="number"
             min="1"
@@ -96,13 +167,17 @@ export function ReviewPage() {
             onChange={(e) => setRating(e.target.value)}
             disabled={saving}
           />
+
           {fieldErrors.rating && (
             <div className="error">{fieldErrors.rating}</div>
           )}
         </div>
 
+        {/* TEXTO */}
+
         <div className="form-row">
           <label>Reseña</label>
+
           <textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -110,19 +185,22 @@ export function ReviewPage() {
             rows={5}
             placeholder="Escribe tu opinión..."
           />
+
           {fieldErrors.text && <div className="error">{fieldErrors.text}</div>}
         </div>
+
+        {/* ACTIONS */}
 
         <div className="form-actions">
           <button type="submit" disabled={saving}>
             {saving ? "Guardando…" : "Guardar reseña"}
           </button>
 
-          <Link className="btn-secondary" to={`/book/${bookId}`}>
+          <Link className="btn-secondary" to={`/libro/${bookId}`}>
             Cancelar
           </Link>
         </div>
       </form>
     </div>
-  );
+  )
 }

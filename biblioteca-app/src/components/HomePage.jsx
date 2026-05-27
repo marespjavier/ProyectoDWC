@@ -1,4 +1,4 @@
-import { BooksPage } from "./BooksPage.jsx";
+import { BooksPage } from "./BooksPage.jsx"
 
 /*
   Página de inicio.
@@ -6,5 +6,5 @@ import { BooksPage } from "./BooksPage.jsx";
 */
 
 export function HomePage() {
-  return <BooksPage />;
+  return <BooksPage />
 }

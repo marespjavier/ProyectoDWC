@@ -1,9 +1,9 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
-import App from "./App.jsx";
-import { ShelfProvider } from "./context/ShelfContext.jsx";
-import "../src/styles/styles.css";
+import React from "react"
+import ReactDOM from "react-dom/client"
+import { BrowserRouter } from "react-router-dom"
+import App from "./App.jsx"
+import { ShelfProvider } from "./context/ShelfContext.jsx"
+import "../src/styles/styles.css"
 
 /*
   Punto de entrada de React.
@@ -19,4 +19,4 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       </ShelfProvider>
     </BrowserRouter>
   </React.StrictMode>,
-);
+)

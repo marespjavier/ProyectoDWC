@@ -1,104 +1,168 @@
-"use strict";
-//URL base de la API (json-server en local) en fichero config API_URL
-import { API_URL } from "./config.js";
-//Importamos la clase Book para trabajar con ella
-import { Book } from "../models/Book.js";
+"use strict"
+
+import { API_URL } from "./config.js"
+import { Book } from "../models/Book.js"
 
 /*
   Función genérica para hacer peticiones HTTP.
-  Centraliza fetch, manejo de errores y conversión a JSON.
 */
-async function request(path, options) {
-  const response = await fetch(path, options);
+async function request(path, options = {}) {
+  const token = localStorage.getItem("token")
 
-  let data = null;
+  const headers = {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+    ...(options.headers || {}),
+  }
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`
+  }
+
+  const response = await fetch(path, {
+    ...options,
+    headers,
+  })
+
+  let data = null
+
   try {
-    data = await response.json();
+    data = await response.json()
   } catch {
-    // Si no hay JSON, dejamos data como null
+    // respuesta vacía
   }
 
   if (!response.ok) {
-    const message = data?.message || `Error HTTP ${response.status}`;
-    throw new Error(message);
+    const message =
+      data?.message || data?.mensaje || `Error HTTP ${response.status}`
+
+    throw new Error(message)
   }
 
-  return data;
+  return data
 }
 
 /*
-  GET /books
-  Obtiene la lista de libros del servidor
+  GET libros
 */
 export async function getBooks() {
-  const data = await request(`${API_URL}/books`);
-  //utilizando la clase Book
-  return data.map((b) => new Book(b));
+  const response = await request(`${API_URL}/libro`)
+
+  const books = response.data ?? response
+
+  return books.map((b) => new Book(b))
 }
 
 /*
-  GET /books/:id
-  Obtiene el libro con la id especificada
+  GET libro por ID
 */
 export async function getBookById(id) {
-  const data = await request(`${API_URL}/books/${id}`);
-  //utilizando la clase Book
-  return new Book(data);
+  const response = await request(`${API_URL}/libro/${id}`)
+
+  return new Book(response.data)
 }
 
 /*
-  POST /books
-  Crea un nuevo libro en el servidor
+  Crear libro
 */
 export async function createBook(book) {
-  const data = await request(`${API_URL}/books`, {
+  const response = await request(`${API_URL}/libro`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(book),
-  });
-  return new Book(data);
+  })
+
+  return new Book(response.data)
 }
 
 /*
-  PATCH /books/:id
-  Modifica solo algunos campos de un libro existente.
+  Actualizar libro
 */
 export async function updateBook(id, book) {
-  const data = await request(`${API_URL}/books/${id}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
+  const response = await request(`${API_URL}/libro/${id}`, {
+    method: "PUT",
     body: JSON.stringify(book),
-  });
-  return new Book(data);
+  })
+
+  return new Book(response.data)
 }
 
 /*
-  DELETE /books/:id
-  Borra un libro del servidor.
+  Eliminar libro
 */
-export function deleteBook(id) {
-  return request(`${API_URL}/books/${id}`, {
+export async function deleteBook(id) {
+  return request(`${API_URL}/libro/${id}`, {
     method: "DELETE",
-  });
+  })
 }
 
 /*
-  GET /reviews?bookId=:bookId
-  Obtiene las reseñas asociadas a un libro  
+|--------------------------------------------------------------------------
+| Reviews localStorage
+|--------------------------------------------------------------------------
 */
-export function getReviewsByBookId(bookId) {
-  return request(`${API_URL}/reviews?bookId=${bookId}`);
+
+const REVIEWS_KEY = "reviews"
+
+/*
+|--------------------------------------------------------------------------
+| Obtener todas las reseñas
+|--------------------------------------------------------------------------
+*/
+
+function loadReviews() {
+  try {
+    const raw = localStorage.getItem(REVIEWS_KEY)
+
+    if (!raw) return []
+
+    const parsed = JSON.parse(raw)
+
+    return Array.isArray(parsed) ? parsed : []
+  } catch {
+    return []
+  }
 }
 
 /*
-  POST /reviews
-  Creación de una reseña para un libro
+|--------------------------------------------------------------------------
+| Guardar reseñas
+|--------------------------------------------------------------------------
 */
+
+function saveReviews(reviews) {
+  localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews))
+}
+
+/*
+|--------------------------------------------------------------------------
+| Obtener reseñas por libro
+|--------------------------------------------------------------------------
+*/
+
+export async function getReviewsByBookId(bookId) {
+  const reviews = loadReviews()
+
+  return reviews.filter((r) => Number(r.bookId) === Number(bookId))
+}
+
+/*
+|--------------------------------------------------------------------------
+| Crear reseña
+|--------------------------------------------------------------------------
+*/
+
 export async function createReview(review) {
-  //review ejemplo: { bookId, user, rating, text, createdAt}
-  return request(`${API_URL}/reviews`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(review),
-  });
+  const reviews = loadReviews()
+
+  const newReview = {
+    ...review,
+
+    id: Date.now(),
+  }
+
+  reviews.push(newReview)
+
+  saveReviews(reviews)
+
+  return newReview
 }
