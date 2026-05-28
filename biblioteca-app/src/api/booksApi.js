@@ -1,65 +1,65 @@
-"use strict"
+"use strict";
 
-import { API_URL } from "./config.js"
-import { Book } from "../models/Book.js"
+import { API_URL } from "./config.js";
+import { Book } from "../models/Book.js";
 
 /*
   Función genérica para hacer peticiones HTTP.
 */
 async function request(path, options = {}) {
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem("token");
 
   const headers = {
     "Content-Type": "application/json",
     Accept: "application/json",
     ...(options.headers || {}),
-  }
+  };
 
   if (token) {
-    headers.Authorization = `Bearer ${token}`
+    headers.Authorization = `Bearer ${token}`;
   }
 
   const response = await fetch(path, {
     ...options,
     headers,
-  })
+  });
 
-  let data = null
+  let data = null;
 
   try {
-    data = await response.json()
+    data = await response.json();
   } catch {
     // respuesta vacía
   }
 
   if (!response.ok) {
     const message =
-      data?.message || data?.mensaje || `Error HTTP ${response.status}`
+      data?.message || data?.mensaje || `Error HTTP ${response.status}`;
 
-    throw new Error(message)
+    throw new Error(message);
   }
 
-  return data
+  return data;
 }
 
 /*
   GET libros
 */
 export async function getBooks() {
-  const response = await request(`${API_URL}/libro`)
+  const response = await request(`${API_URL}/libro`);
 
-  const books = response.data ?? response
+  const books = response.data ?? response;
 
-  return books.map((b) => new Book(b))
+  return books.map((b) => new Book(b));
 }
 
 /*
   GET libro por ID
 */
 export async function getBookById(id) {
-  const response = await request(`${API_URL}/libro/${id}`)
+  const response = await request(`${API_URL}/libro/${id}`);
 
-  return new Book(response.data)
+  return new Book(response.data);
 }
 
 /*
@@ -69,9 +69,9 @@ export async function createBook(book) {
   const response = await request(`${API_URL}/libro`, {
     method: "POST",
     body: JSON.stringify(book),
-  })
+  });
 
-  return new Book(response.data)
+  return new Book(response.data);
 }
 
 /*
@@ -81,9 +81,9 @@ export async function updateBook(id, book) {
   const response = await request(`${API_URL}/libro/${id}`, {
     method: "PUT",
     body: JSON.stringify(book),
-  })
+  });
 
-  return new Book(response.data)
+  return new Book(response.data);
 }
 
 /*
@@ -92,7 +92,7 @@ export async function updateBook(id, book) {
 export async function deleteBook(id) {
   return request(`${API_URL}/libro/${id}`, {
     method: "DELETE",
-  })
+  });
 }
 
 /*
@@ -101,7 +101,7 @@ export async function deleteBook(id) {
 |--------------------------------------------------------------------------
 */
 
-const REVIEWS_KEY = "reviews"
+const REVIEWS_KEY = "reviews";
 
 /*
 |--------------------------------------------------------------------------
@@ -111,15 +111,15 @@ const REVIEWS_KEY = "reviews"
 
 function loadReviews() {
   try {
-    const raw = localStorage.getItem(REVIEWS_KEY)
+    const raw = localStorage.getItem(REVIEWS_KEY);
 
-    if (!raw) return []
+    if (!raw) return [];
 
-    const parsed = JSON.parse(raw)
+    const parsed = JSON.parse(raw);
 
-    return Array.isArray(parsed) ? parsed : []
+    return Array.isArray(parsed) ? parsed : [];
   } catch {
-    return []
+    return [];
   }
 }
 
@@ -130,7 +130,7 @@ function loadReviews() {
 */
 
 function saveReviews(reviews) {
-  localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews))
+  localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews));
 }
 
 /*
@@ -140,9 +140,9 @@ function saveReviews(reviews) {
 */
 
 export async function getReviewsByBookId(bookId) {
-  const reviews = loadReviews()
+  const reviews = loadReviews();
 
-  return reviews.filter((r) => Number(r.bookId) === Number(bookId))
+  return reviews.filter((r) => Number(r.bookId) === Number(bookId));
 }
 
 /*
@@ -152,17 +152,17 @@ export async function getReviewsByBookId(bookId) {
 */
 
 export async function createReview(review) {
-  const reviews = loadReviews()
+  const reviews = loadReviews();
 
   const newReview = {
     ...review,
 
     id: Date.now(),
-  }
+  };
 
-  reviews.push(newReview)
+  reviews.push(newReview);
 
-  saveReviews(reviews)
+  saveReviews(reviews);
 
-  return newReview
+  return newReview;
 }

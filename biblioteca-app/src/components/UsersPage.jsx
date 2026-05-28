@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
-import { getUsers, deleteUser } from "../api/usersApi"
+import { getUsers, deleteUser } from "../api/usersApi";
 
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
-import { ConfirmModal } from "./ConfirmModal"
+import { ConfirmModal } from "./ConfirmModal";
 
-import { FiEdit2, FiTrash2 } from "react-icons/fi"
+import { FiEdit2, FiTrash2 } from "react-icons/fi";
 
 /*
 |--------------------------------------------------------------------------
@@ -15,13 +15,13 @@ import { FiEdit2, FiTrash2 } from "react-icons/fi"
 */
 
 export function UsersPage() {
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState([]);
 
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(null);
 
-  const [userToDelete, setUserToDelete] = useState(null)
+  const [userToDelete, setUserToDelete] = useState(null);
 
   /*
   |--------------------------------------------------------------------------
@@ -30,18 +30,18 @@ export function UsersPage() {
   */
 
   useEffect(() => {
-    loadUsers()
-  }, [])
+    loadUsers();
+  }, []);
 
   async function loadUsers() {
     try {
-      const data = await getUsers()
+      const data = await getUsers();
 
-      setUsers(data)
+      setUsers(data);
     } catch (err) {
-      setError(err.message)
+      setError(err.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -52,16 +52,16 @@ export function UsersPage() {
   */
 
   async function handleDelete() {
-    if (!userToDelete) return
+    if (!userToDelete) return;
 
     try {
-      await deleteUser(userToDelete.id)
+      await deleteUser(userToDelete.id);
 
-      setUsers((prev) => prev.filter((user) => user.id !== userToDelete.id))
+      setUsers((prev) => prev.filter((user) => user.id !== userToDelete.id));
 
-      setUserToDelete(null)
+      setUserToDelete(null);
     } catch (err) {
-      alert(err.message)
+      alert(err.message);
     }
   }
 
@@ -72,11 +72,11 @@ export function UsersPage() {
   */
 
   if (loading) {
-    return <p>Cargando usuarios...</p>
+    return <Loader text="Cargando usuarios..." />;
   }
 
   if (error) {
-    return <p className="error">{error}</p>
+    return <p className="error">{error}</p>;
   }
 
   return (
@@ -175,5 +175,5 @@ export function UsersPage() {
         onCancel={() => setUserToDelete(null)}
       />
     </div>
-  )
+  );
 }

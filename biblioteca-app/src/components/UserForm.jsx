@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from "react";
 
 /*
 |--------------------------------------------------------------------------
@@ -13,19 +13,19 @@ export function UserForm({ onSubmit, submitText, initialValues, disabled }) {
   |--------------------------------------------------------------------------
   */
 
-  const [nombre, setNombre] = useState(initialValues?.nombre ?? "")
+  const [nombre, setNombre] = useState(initialValues?.nombre ?? "");
 
-  const [email, setEmail] = useState(initialValues?.email ?? "")
+  const [email, setEmail] = useState(initialValues?.email ?? "");
 
-  const [telefono, setTelefono] = useState(initialValues?.telefono ?? "")
+  const [telefono, setTelefono] = useState(initialValues?.telefono ?? "");
 
-  const [direccion, setDireccion] = useState(initialValues?.direccion ?? "")
+  const [direccion, setDireccion] = useState(initialValues?.direccion ?? "");
 
-  const [password, setPassword] = useState("")
+  const [password, setPassword] = useState("");
 
-  const [role, setRole] = useState(initialValues?.role ?? "Usuario")
+  const [role, setRole] = useState(initialValues?.role ?? "Usuario");
 
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(null);
 
   /*
   |--------------------------------------------------------------------------
@@ -34,9 +34,9 @@ export function UserForm({ onSubmit, submitText, initialValues, disabled }) {
   */
 
   async function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
 
-    setError(null)
+    setError(null);
 
     /*
     |--------------------------------------------------------------------------
@@ -45,11 +45,11 @@ export function UserForm({ onSubmit, submitText, initialValues, disabled }) {
     */
 
     if (!nombre.trim()) {
-      return setError("El nombre es obligatorio.")
+      return setError("El nombre es obligatorio.");
     }
 
     if (!email.trim()) {
-      return setError("El email es obligatorio.")
+      return setError("El email es obligatorio.");
     }
 
     /*
@@ -59,7 +59,7 @@ export function UserForm({ onSubmit, submitText, initialValues, disabled }) {
     */
 
     if (!initialValues && !password.trim()) {
-      return setError("La contraseña es obligatoria.")
+      return setError("La contraseña es obligatoria.");
     }
 
     try {
@@ -79,7 +79,7 @@ export function UserForm({ onSubmit, submitText, initialValues, disabled }) {
         telefono,
 
         direccion,
-      }
+      };
 
       /*
       |--------------------------------------------------------------------------
@@ -88,12 +88,12 @@ export function UserForm({ onSubmit, submitText, initialValues, disabled }) {
       */
 
       if (password.trim()) {
-        userData.password = password
+        userData.password = password;
       }
 
-      await onSubmit(userData)
+      await onSubmit(userData);
     } catch (err) {
-      setError(err.message ?? "No se pudo guardar el usuario.")
+      setError(err.message ?? "No se pudo guardar el usuario.");
     }
   }
 
@@ -192,5 +192,5 @@ export function UserForm({ onSubmit, submitText, initialValues, disabled }) {
         </button>
       </div>
     </form>
-  )
+  );
 }

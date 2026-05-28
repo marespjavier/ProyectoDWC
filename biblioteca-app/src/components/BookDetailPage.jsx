@@ -1,16 +1,16 @@
-import { useParams, Link, useNavigate } from "react-router-dom"
+import { useParams, Link, useNavigate } from "react-router-dom";
 
-import { useState } from "react"
+import { useState } from "react";
 
-import { useBookDetail } from "../hooks/useBookDetail"
+import { useBookDetail } from "../hooks/useBookDetail";
 
-import { useShelf } from "../context/ShelfContext"
+import { useShelf } from "../context/ShelfContext";
 
-import { deleteBook } from "../api/booksApi"
+import { deleteBook } from "../api/booksApi";
 
-import { canManageBooks, isUsuario } from "../utils/auth"
+import { canManageBooks, isUsuario } from "../utils/auth";
 
-import { ConfirmModal } from "./ConfirmModal"
+import { ConfirmModal } from "./ConfirmModal";
 
 /*
 |--------------------------------------------------------------------------
@@ -25,9 +25,9 @@ export function BookDetailPage() {
   |--------------------------------------------------------------------------
   */
 
-  const { id } = useParams()
+  const { id } = useParams();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   /*
   |--------------------------------------------------------------------------
@@ -35,7 +35,7 @@ export function BookDetailPage() {
   |--------------------------------------------------------------------------
   */
 
-  const shelf = useShelf()
+  const shelf = useShelf();
 
   /*
   |--------------------------------------------------------------------------
@@ -43,7 +43,7 @@ export function BookDetailPage() {
   |--------------------------------------------------------------------------
   */
 
-  const { book, reviews, loading, error } = useBookDetail(id)
+  const { book, reviews, loading, error } = useBookDetail(id);
 
   /*
   |--------------------------------------------------------------------------
@@ -51,9 +51,9 @@ export function BookDetailPage() {
   |--------------------------------------------------------------------------
   */
 
-  const currentStatus = book ? shelf.getStatus(book.id) : null
+  const currentStatus = book ? shelf.getStatus(book.id) : null;
 
-  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   /*
   |--------------------------------------------------------------------------
@@ -63,13 +63,13 @@ export function BookDetailPage() {
 
   async function handleDelete() {
     try {
-      await deleteBook(book.id)
+      await deleteBook(book.id);
 
-      shelf.remove(book.id)
+      shelf.remove(book.id);
 
-      navigate("/")
+      navigate("/");
     } catch (err) {
-      alert(err?.message ?? "No se pudo eliminar el libro.")
+      alert(err?.message ?? "No se pudo eliminar el libro.");
     }
   }
 
@@ -80,7 +80,7 @@ export function BookDetailPage() {
   */
 
   if (loading) {
-    return <p>Cargando libro…</p>
+    return <Loader text="Cargando libro..." />;
   }
 
   /*
@@ -96,7 +96,7 @@ export function BookDetailPage() {
 
         <Link to="/">Volver</Link>
       </div>
-    )
+    );
   }
 
   /*
@@ -106,7 +106,7 @@ export function BookDetailPage() {
   */
 
   if (!book) {
-    return <p>Libro no encontrado</p>
+    return <p>Libro no encontrado</p>;
   }
 
   return (
@@ -273,5 +273,5 @@ export function BookDetailPage() {
         onCancel={() => setShowDeleteModal(false)}
       />
     </div>
-  )
+  );
 }

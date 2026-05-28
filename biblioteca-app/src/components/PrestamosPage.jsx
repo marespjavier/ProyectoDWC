@@ -1,29 +1,29 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
 import {
   getPrestamos,
   devolverPrestamo,
   deletePrestamo,
-} from "../api/prestamosApi"
+} from "../api/prestamosApi";
 
-import { canManageBooks } from "../utils/auth"
+import { canManageBooks } from "../utils/auth";
 
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
-import { ConfirmModal } from "./ConfirmModal"
+import { ConfirmModal } from "./ConfirmModal";
 
-import { FiEye, FiTrash2, FiCheck } from "react-icons/fi"
+import { FiEye, FiTrash2, FiCheck } from "react-icons/fi";
 
 export function PrestamosPage() {
-  const [prestamos, setPrestamos] = useState([])
+  const [prestamos, setPrestamos] = useState([]);
 
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(null);
 
-  const [prestamoToDelete, setPrestamoToDelete] = useState(null)
+  const [prestamoToDelete, setPrestamoToDelete] = useState(null);
 
-  const [prestamoToReturn, setPrestamoToReturn] = useState(null)
+  const [prestamoToReturn, setPrestamoToReturn] = useState(null);
 
   /*
   |--------------------------------------------------------------------------
@@ -33,25 +33,25 @@ export function PrestamosPage() {
 
   async function loadPrestamos() {
     try {
-      const data = await getPrestamos()
+      const data = await getPrestamos();
 
       const prestamosArray = Array.isArray(data)
         ? data
         : data?.data
           ? [data.data]
-          : []
+          : [];
 
-      setPrestamos(prestamosArray)
+      setPrestamos(prestamosArray);
     } catch (err) {
-      setError(err.message)
+      setError(err.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   useEffect(() => {
-    loadPrestamos()
-  }, [])
+    loadPrestamos();
+  }, []);
 
   /*
   |--------------------------------------------------------------------------
@@ -60,16 +60,16 @@ export function PrestamosPage() {
   */
 
   async function handleDevolver() {
-    if (!prestamoToReturn) return
+    if (!prestamoToReturn) return;
 
     try {
-      await devolverPrestamo(prestamoToReturn.id)
+      await devolverPrestamo(prestamoToReturn.id);
 
-      await loadPrestamos()
+      await loadPrestamos();
 
-      setPrestamoToReturn(null)
+      setPrestamoToReturn(null);
     } catch (err) {
-      alert(err.message)
+      alert(err.message);
     }
   }
 
@@ -80,16 +80,16 @@ export function PrestamosPage() {
   */
 
   async function handleDelete() {
-    if (!prestamoToDelete) return
+    if (!prestamoToDelete) return;
 
     try {
-      await deletePrestamo(prestamoToDelete.id)
+      await deletePrestamo(prestamoToDelete.id);
 
-      setPrestamos((prev) => prev.filter((p) => p.id !== prestamoToDelete.id))
+      setPrestamos((prev) => prev.filter((p) => p.id !== prestamoToDelete.id));
 
-      setPrestamoToDelete(null)
+      setPrestamoToDelete(null);
     } catch (err) {
-      alert(err.message)
+      alert(err.message);
     }
   }
 
@@ -100,11 +100,11 @@ export function PrestamosPage() {
   */
 
   if (loading) {
-    return <p>Cargando préstamos...</p>
+    return <Loader text="Cargando préstamos..." />;
   }
 
   if (error) {
-    return <p className="error">{error}</p>
+    return <p className="error">{error}</p>;
   }
 
   return (
@@ -265,5 +265,5 @@ export function PrestamosPage() {
         onCancel={() => setPrestamoToReturn(null)}
       />
     </div>
-  )
+  );
 }

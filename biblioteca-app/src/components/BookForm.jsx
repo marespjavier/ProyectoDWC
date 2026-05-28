@@ -1,8 +1,8 @@
-import { useState, useEffect, act } from "react"
+import { useState, useEffect, act } from "react";
 
-import { getAutores } from "../api/autoresApi"
+import { getAutores } from "../api/autoresApi";
 
-import { getCategorias } from "../api/categoriasApi"
+import { getCategorias } from "../api/categoriasApi";
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +16,7 @@ import { getCategorias } from "../api/categoriasApi"
 */
 
 export function BookForm({ onAdd, disabled, initialValues, submitText }) {
-  const currentYear = new Date().getFullYear()
+  const currentYear = new Date().getFullYear();
 
   /*
   |--------------------------------------------------------------------------
@@ -24,17 +24,17 @@ export function BookForm({ onAdd, disabled, initialValues, submitText }) {
   |--------------------------------------------------------------------------
   */
 
-  const [title, setTitle] = useState(initialValues?.title ?? "")
+  const [title, setTitle] = useState(initialValues?.title ?? "");
 
   const [description, setDescription] = useState(
     initialValues?.description ?? "",
-  )
+  );
 
-  const [isbn, setIsbn] = useState(initialValues?.isbn ?? "")
+  const [isbn, setIsbn] = useState(initialValues?.isbn ?? "");
 
   const [publishedYear, setPublishedYear] = useState(
     initialValues?.publishedYear ? String(initialValues.publishedYear) : "",
-  )
+  );
 
   /*
   |--------------------------------------------------------------------------
@@ -42,9 +42,9 @@ export function BookForm({ onAdd, disabled, initialValues, submitText }) {
   |--------------------------------------------------------------------------
   */
 
-  const [authorId, setAuthorId] = useState(initialValues?.authorId ?? "")
+  const [authorId, setAuthorId] = useState(initialValues?.authorId ?? "");
 
-  const [categoryId, setCategoryId] = useState(initialValues?.categoryId ?? "")
+  const [categoryId, setCategoryId] = useState(initialValues?.categoryId ?? "");
 
   /*
   |--------------------------------------------------------------------------
@@ -52,9 +52,9 @@ export function BookForm({ onAdd, disabled, initialValues, submitText }) {
   |--------------------------------------------------------------------------
   */
 
-  const [autores, setAutores] = useState([])
+  const [autores, setAutores] = useState([]);
 
-  const [categorias, setCategorias] = useState([])
+  const [categorias, setCategorias] = useState([]);
 
   /*
   |--------------------------------------------------------------------------
@@ -62,7 +62,7 @@ export function BookForm({ onAdd, disabled, initialValues, submitText }) {
   |--------------------------------------------------------------------------
   */
 
-  const [formError, setFormError] = useState(null)
+  const [formError, setFormError] = useState(null);
 
   /*
   |--------------------------------------------------------------------------
@@ -73,20 +73,20 @@ export function BookForm({ onAdd, disabled, initialValues, submitText }) {
   useEffect(() => {
     async function loadData() {
       try {
-        const autoresData = await getAutores()
+        const autoresData = await getAutores();
 
-        const categoriasData = await getCategorias()
+        const categoriasData = await getCategorias();
 
-        setAutores(autoresData)
+        setAutores(autoresData);
 
-        setCategorias(categoriasData)
+        setCategorias(categoriasData);
       } catch (err) {
-        console.error(err)
+        console.error(err);
       }
     }
 
-    loadData()
-  }, [])
+    loadData();
+  }, []);
 
   /*
   |--------------------------------------------------------------------------
@@ -95,15 +95,15 @@ export function BookForm({ onAdd, disabled, initialValues, submitText }) {
   */
 
   async function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
 
-    setFormError(null)
+    setFormError(null);
 
-    const t = title.trim()
+    const t = title.trim();
 
-    const d = description.trim()
+    const d = description.trim();
 
-    const i = isbn.trim()
+    const i = isbn.trim();
 
     /*
     |--------------------------------------------------------------------------
@@ -112,39 +112,39 @@ export function BookForm({ onAdd, disabled, initialValues, submitText }) {
     */
 
     if (!t) {
-      return setFormError("El título es obligatorio.")
+      return setFormError("El título es obligatorio.");
     }
 
     if (!d) {
-      return setFormError("La descripción es obligatoria.")
+      return setFormError("La descripción es obligatoria.");
     }
 
     if (!i) {
-      return setFormError("El ISBN es obligatorio.")
+      return setFormError("El ISBN es obligatorio.");
     }
 
     if (!authorId) {
-      return setFormError("Debes seleccionar un autor.")
+      return setFormError("Debes seleccionar un autor.");
     }
 
     if (!categoryId) {
-      return setFormError("Debes seleccionar una categoría.")
+      return setFormError("Debes seleccionar una categoría.");
     }
 
-    let yearValue = null
+    let yearValue = null;
 
     if (publishedYear.trim()) {
-      const yearNum = Number(publishedYear)
+      const yearNum = Number(publishedYear);
 
       if (Number.isNaN(yearNum)) {
-        return setFormError("El año debe ser numérico.")
+        return setFormError("El año debe ser numérico.");
       }
 
       if (yearNum > currentYear) {
-        return setFormError("El año no puede ser futuro.")
+        return setFormError("El año no puede ser futuro.");
       }
 
-      yearValue = yearNum
+      yearValue = yearNum;
     }
 
     /*
@@ -165,12 +165,12 @@ export function BookForm({ onAdd, disabled, initialValues, submitText }) {
       autor_id: Number(authorId),
 
       categoria_id: Number(categoryId),
-    }
+    };
 
     try {
-      await onAdd(book)
+      await onAdd(book);
     } catch (err) {
-      setFormError(err?.message ?? "No se pudo guardar el libro.")
+      setFormError(err?.message ?? "No se pudo guardar el libro.");
     }
   }
 
@@ -284,5 +284,5 @@ export function BookForm({ onAdd, disabled, initialValues, submitText }) {
         </div>
       </div>
     </form>
-  )
+  );
 }

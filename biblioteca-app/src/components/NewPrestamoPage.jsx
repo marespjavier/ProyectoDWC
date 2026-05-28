@@ -1,29 +1,29 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
-import { getBooks } from "../api/booksApi"
+import { getBooks } from "../api/booksApi";
 
-import { getUsers } from "../api/usersApi"
+import { getUsers } from "../api/usersApi";
 
-import { createPrestamo } from "../api/prestamosApi"
+import { createPrestamo } from "../api/prestamosApi";
 
 export function NewPrestamoPage() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   /*
     Estados
   */
 
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState([]);
 
-  const [books, setBooks] = useState([])
+  const [books, setBooks] = useState([]);
 
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
-  const [saving, setSaving] = useState(false)
+  const [saving, setSaving] = useState(false);
 
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(null);
 
   /*
     Formulario
@@ -39,7 +39,7 @@ export function NewPrestamoPage() {
     fecha_prestamo: new Date().toISOString().split("T")[0],
 
     fecha_devolucion: "",
-  })
+  });
 
   /*
     Cargar datos
@@ -48,35 +48,35 @@ export function NewPrestamoPage() {
   useEffect(() => {
     async function loadData() {
       try {
-        const usersData = await getUsers()
+        const usersData = await getUsers();
 
-        const booksData = await getBooks()
+        const booksData = await getBooks();
 
-        setUsers(usersData)
+        setUsers(usersData);
 
-        setBooks(booksData)
+        setBooks(booksData);
       } catch (err) {
-        console.error(err)
+        console.error(err);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     }
 
-    loadData()
-  }, [])
+    loadData();
+  }, []);
 
   /*
     Inputs
   */
 
   function handleChange(e) {
-    const { name, value } = e.target
-    setError(null)
+    const { name, value } = e.target;
+    setError(null);
 
     setForm((prev) => ({
       ...prev,
       [name]: value,
-    }))
+    }));
   }
 
   /*
@@ -84,23 +84,23 @@ export function NewPrestamoPage() {
   */
 
   async function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
 
-    setSaving(true)
+    setSaving(true);
 
     try {
-      await createPrestamo(form)
+      await createPrestamo(form);
 
-      navigate("/prestamos")
+      navigate("/prestamos");
     } catch (err) {
-      setError(err.message || "No se pudo crear el préstamo")
+      setError(err.message || "No se pudo crear el préstamo");
     } finally {
-      setSaving(false)
+      setSaving(false);
     }
   }
 
   if (loading) {
-    return <p>Cargando datos...</p>
+    return <Loader text="Cargando datos..." />;
   }
 
   return (
@@ -194,5 +194,5 @@ export function NewPrestamoPage() {
         </div>
       </form>
     </div>
-  )
+  );
 }

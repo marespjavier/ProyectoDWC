@@ -1,35 +1,35 @@
-"use strict"
+"use strict";
 
-import { useState } from "react"
-import { loginRequest } from "../api/authApi.js"
+import { useState } from "react";
+import { loginRequest } from "../api/authApi.js";
 
 export function useAuth() {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")))
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
   async function login(email, password) {
-    const data = await loginRequest(email, password)
+    const data = await loginRequest(email, password);
 
     //Guardamos el token
-    localStorage.setItem("token", data.token)
+    localStorage.setItem("token", data.token);
 
     //Guardamos el usuario
-    localStorage.setItem("user", JSON.stringify(data.user))
+    localStorage.setItem("user", JSON.stringify(data.user));
 
     //Actualizamos el estado
-    setUser(data.user)
+    setUser(data.user);
 
-    return data.user
+    return data.user;
   }
 
   //Función de logout
   function logout() {
     //Eliminamos el token y el usuario del localStorage
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
 
     //Actualizamos el estado
-    setUser(null)
+    setUser(null);
   }
 
-  return { user, login, logout, isAuthenticated: !!user }
+  return { user, login, logout, isAuthenticated: !!user };
 }

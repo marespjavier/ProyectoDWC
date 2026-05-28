@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route } from "react-router-dom";
 
 /*
 |--------------------------------------------------------------------------
@@ -6,37 +6,37 @@ import { Routes, Route } from "react-router-dom"
 |--------------------------------------------------------------------------
 */
 
-import { HomePage } from "./components/HomePage"
+import { HomePage } from "./components/HomePage";
 
-import { LoginPage } from "./components/LoginPage.jsx"
+import { LoginPage } from "./components/LoginPage.jsx";
 
-import { ShelfPage } from "./components/ShelfPage"
+import { ShelfPage } from "./components/ShelfPage";
 
-import { BookDetailPage } from "./components/BookDetailPage"
+import { BookDetailPage } from "./components/BookDetailPage";
 
-import { NewBookPage } from "./components/NewBookPage"
+import { NewBookPage } from "./components/NewBookPage";
 
-import { EditBookPage } from "./components/EditBookPage"
+import { EditBookPage } from "./components/EditBookPage";
 
-import { ReviewPage } from "./components/ReviewPage"
+import { ReviewPage } from "./components/ReviewPage";
 
-import { PrestamosPage } from "./components/PrestamosPage.jsx"
+import { PrestamosPage } from "./components/PrestamosPage.jsx";
 
-import { MyPrestamosPage } from "./components/MyPrestamosPage.jsx"
+import { MyPrestamosPage } from "./components/MyPrestamosPage.jsx";
 
-import { NewPrestamoPage } from "./components/NewPrestamoPage.jsx"
+import { NewPrestamoPage } from "./components/NewPrestamoPage.jsx";
 
-import { NotFoundPage } from "./components/NotFoundPage"
+import { NotFoundPage } from "./components/NotFoundPage";
 
-import { DashboardPage } from "./components/DashboardPage.jsx"
+import { DashboardPage } from "./components/DashboardPage.jsx";
 
-import { ProfilePage } from "./components/ProfilePage.jsx"
+import { ProfilePage } from "./components/ProfilePage.jsx";
 
-import { UsersPage } from "./components/UsersPage.jsx"
+import { UsersPage } from "./components/UsersPage.jsx";
 
-import { EditUserPage } from "./components/EditUserPage.jsx"
+import { EditUserPage } from "./components/EditUserPage.jsx";
 
-import { NewUserPage } from "./components/NewUserPage.jsx"
+import { NewUserPage } from "./components/NewUserPage.jsx";
 
 /*
 |--------------------------------------------------------------------------
@@ -44,7 +44,7 @@ import { NewUserPage } from "./components/NewUserPage.jsx"
 |--------------------------------------------------------------------------
 */
 
-import { Sidebar } from "./components/Sidebar"
+import { Sidebar } from "./components/Sidebar";
 
 /*
 |--------------------------------------------------------------------------
@@ -52,7 +52,7 @@ import { Sidebar } from "./components/Sidebar"
 |--------------------------------------------------------------------------
 */
 
-import { canManageBooks } from "./utils/auth"
+import { canManageBooks } from "./utils/auth";
 
 /*
 |--------------------------------------------------------------------------
@@ -67,7 +67,7 @@ function App() {
   |--------------------------------------------------------------------------
   */
 
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem("token");
 
   return (
     <div className="app-layout">
@@ -171,7 +171,7 @@ function App() {
         </Routes>
       </main>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

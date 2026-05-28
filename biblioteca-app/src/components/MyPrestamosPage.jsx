@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react"
-import { getPrestamos } from "../api/prestamosApi"
+import { useEffect, useState } from "react";
+import { getPrestamos } from "../api/prestamosApi";
 
 export function MyPrestamosPage() {
-  const [prestamos, setPrestamos] = useState([])
+  const [prestamos, setPrestamos] = useState([]);
 
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(null);
 
   /*
     Cargar préstamos
@@ -15,25 +15,25 @@ export function MyPrestamosPage() {
   useEffect(() => {
     async function load() {
       try {
-        const data = await getPrestamos()
+        const data = await getPrestamos();
 
-        setPrestamos(data)
+        setPrestamos(data);
       } catch (err) {
-        setError(err.message)
+        setError(err.message);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     }
 
-    load()
-  }, [])
+    load();
+  }, []);
 
   /*
     Loading
   */
 
   if (loading) {
-    return <p>Cargando préstamos…</p>
+    return <Loader text="Cargando préstamos..." />;
   }
 
   /*
@@ -41,7 +41,7 @@ export function MyPrestamosPage() {
   */
 
   if (error) {
-    return <p className="error">{error}</p>
+    return <p className="error">{error}</p>;
   }
 
   return (
@@ -96,5 +96,5 @@ export function MyPrestamosPage() {
         </div>
       )}
     </div>
-  )
+  );
 }

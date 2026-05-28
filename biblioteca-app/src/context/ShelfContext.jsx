@@ -1,8 +1,8 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react"
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
-const ShelfContext = createContext(null)
+const ShelfContext = createContext(null);
 
-const VALID_STATUSES = new Set(["favorito", "pendiente", "leido"])
+const VALID_STATUSES = new Set(["favorito", "pendiente", "leido"]);
 
 /*
 |--------------------------------------------------------------------------
@@ -11,9 +11,9 @@ const VALID_STATUSES = new Set(["favorito", "pendiente", "leido"])
 */
 
 function getStorageKey() {
-  const user = JSON.parse(localStorage.getItem("user"))
+  const user = JSON.parse(localStorage.getItem("user"));
 
-  return `shelf_${user?.id ?? "guest"}`
+  return `shelf_${user?.id ?? "guest"}`;
 }
 
 /*
@@ -23,7 +23,7 @@ function getStorageKey() {
 */
 
 function todayISO() {
-  return new Date().toISOString().slice(0, 10)
+  return new Date().toISOString().slice(0, 10);
 }
 
 /*
@@ -34,14 +34,14 @@ function todayISO() {
 
 function loadShelf() {
   try {
-    const raw = localStorage.getItem(getStorageKey())
+    const raw = localStorage.getItem(getStorageKey());
 
-    if (!raw) return []
+    if (!raw) return [];
 
-    const parsed = JSON.parse(raw)
+    const parsed = JSON.parse(raw);
 
     if (!Array.isArray(parsed)) {
-      return []
+      return [];
     }
 
     /*
@@ -61,9 +61,9 @@ function loadShelf() {
         status: x.status,
 
         addedAt: typeof x.addedAt === "string" ? x.addedAt : todayISO(),
-      }))
+      }));
   } catch {
-    return []
+    return [];
   }
 }
 
@@ -74,7 +74,7 @@ function loadShelf() {
 */
 
 export function ShelfProvider({ children }) {
-  const [items, setItems] = useState(() => loadShelf())
+  const [items, setItems] = useState(() => loadShelf());
 
   /*
   |--------------------------------------------------------------------------
@@ -83,8 +83,8 @@ export function ShelfProvider({ children }) {
   */
 
   useEffect(() => {
-    localStorage.setItem(getStorageKey(), JSON.stringify(items))
-  }, [items])
+    localStorage.setItem(getStorageKey(), JSON.stringify(items));
+  }, [items]);
 
   /*
   |--------------------------------------------------------------------------
@@ -94,11 +94,11 @@ export function ShelfProvider({ children }) {
 
   function upsert(bookId, status = "pendiente") {
     if (!VALID_STATUSES.has(status)) {
-      status = "pendiente"
+      status = "pendiente";
     }
 
     setItems((prev) => {
-      const idx = prev.findIndex((x) => x.bookId === bookId)
+      const idx = prev.findIndex((x) => x.bookId === bookId);
 
       /*
       |--------------------------------------------------------------------------
@@ -116,7 +116,7 @@ export function ShelfProvider({ children }) {
 
             addedAt: todayISO(),
           },
-        ]
+        ];
       }
 
       /*
@@ -125,16 +125,16 @@ export function ShelfProvider({ children }) {
       |--------------------------------------------------------------------------
       */
 
-      const updated = [...prev]
+      const updated = [...prev];
 
       updated[idx] = {
         ...updated[idx],
 
         status,
-      }
+      };
 
-      return updated
-    })
+      return updated;
+    });
   }
 
   /*
@@ -144,7 +144,7 @@ export function ShelfProvider({ children }) {
   */
 
   function remove(bookId) {
-    setItems((prev) => prev.filter((x) => x.bookId !== bookId))
+    setItems((prev) => prev.filter((x) => x.bookId !== bookId));
   }
 
   /*
@@ -154,7 +154,7 @@ export function ShelfProvider({ children }) {
   */
 
   function setStatus(bookId, status) {
-    upsert(bookId, status)
+    upsert(bookId, status);
   }
 
   /*
@@ -164,7 +164,7 @@ export function ShelfProvider({ children }) {
   */
 
   function getStatus(bookId) {
-    return items.find((x) => x.bookId === bookId)?.status ?? null
+    return items.find((x) => x.bookId === bookId)?.status ?? null;
   }
 
   /*
@@ -174,7 +174,7 @@ export function ShelfProvider({ children }) {
   */
 
   function isInShelf(bookId) {
-    return items.some((x) => x.bookId === bookId)
+    return items.some((x) => x.bookId === bookId);
   }
 
   /*
@@ -198,9 +198,11 @@ export function ShelfProvider({ children }) {
       isInShelf,
     }),
     [items],
-  )
+  );
 
-  return <ShelfContext.Provider value={value}>{children}</ShelfContext.Provider>
+  return (
+    <ShelfContext.Provider value={value}>{children}</ShelfContext.Provider>
+  );
 }
 
 /*
@@ -210,11 +212,11 @@ export function ShelfProvider({ children }) {
 */
 
 export function useShelf() {
-  const ctx = useContext(ShelfContext)
+  const ctx = useContext(ShelfContext);
 
   if (!ctx) {
-    throw new Error("useShelf debe usarse dentro de <ShelfProvider>")
+    throw new Error("useShelf debe usarse dentro de <ShelfProvider>");
   }
 
-  return ctx
+  return ctx;
 }

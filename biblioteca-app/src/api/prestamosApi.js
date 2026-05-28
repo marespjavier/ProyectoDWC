@@ -1,17 +1,17 @@
-import { API_URL } from "./config"
-import { Prestamo } from "../models/Prestamo"
+import { API_URL } from "./config";
+import { Prestamo } from "../models/Prestamo";
 
 /*
   Obtener token
 */
 function getHeaders() {
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem("token");
 
   return {
     "Content-Type": "application/json",
     Accept: "application/json",
     Authorization: `Bearer ${token}`,
-  }
+  };
 }
 
 /*
@@ -20,14 +20,14 @@ function getHeaders() {
 export async function getPrestamos() {
   const response = await fetch(`${API_URL}/prestamo`, {
     headers: getHeaders(),
-  })
+  });
 
-  const data = await response.json()
+  const data = await response.json();
 
   // Compatible con ambas respuestas Laravel
-  const prestamos = data.data ?? data
+  const prestamos = data.data ?? data;
 
-  return prestamos.map((p) => new Prestamo(p))
+  return prestamos.map((p) => new Prestamo(p));
 }
 
 /*
@@ -41,15 +41,15 @@ export async function createPrestamo(prestamo) {
     headers: getHeaders(),
 
     body: JSON.stringify(prestamo),
-  })
+  });
 
-  const data = await response.json()
+  const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data?.message || "No se pudo crear el préstamo")
+    throw new Error(data?.message || "No se pudo crear el préstamo");
   }
 
-  return data
+  return data;
 }
 
 /*
@@ -65,15 +65,15 @@ export async function devolverPrestamo(id) {
       estado: "devuelto",
       fecha_devolucion: new Date().toISOString().split("T")[0],
     }),
-  })
+  });
 
-  const data = await response.json()
+  const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data?.message || "No se pudo devolver el préstamo")
+    throw new Error(data?.message || "No se pudo devolver el préstamo");
   }
 
-  return data
+  return data;
 }
 
 /*
@@ -84,13 +84,13 @@ export async function deletePrestamo(id) {
     method: "DELETE",
 
     headers: getHeaders(),
-  })
+  });
 
-  const data = await response.json()
+  const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data?.message || "No se pudo eliminar el préstamo")
+    throw new Error(data?.message || "No se pudo eliminar el préstamo");
   }
 
-  return data
+  return data;
 }

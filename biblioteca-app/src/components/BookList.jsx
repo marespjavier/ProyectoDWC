@@ -1,4 +1,4 @@
-import { BookCard } from "./BookCard"
+import { BookCard } from "./BookCard";
 
 /*
   Componente de lista.
@@ -11,5 +11,5 @@ export function BookList({ books }) {
         <BookCard key={b.id} book={b} />
       ))}
     </div>
-  )
+  );
 }

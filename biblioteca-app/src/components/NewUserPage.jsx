@@ -1,8 +1,8 @@
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
-import { UserForm } from "./UserForm"
+import { UserForm } from "./UserForm";
 
-import { createUser } from "../api/usersApi"
+import { createUser } from "../api/usersApi";
 
 /*
 |--------------------------------------------------------------------------
@@ -11,7 +11,7 @@ import { createUser } from "../api/usersApi"
 */
 
 export function NewUserPage() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   /*
   |--------------------------------------------------------------------------
@@ -20,9 +20,9 @@ export function NewUserPage() {
   */
 
   async function handleCreate(user) {
-    await createUser(user)
+    await createUser(user);
 
-    navigate("/users")
+    navigate("/users");
   }
 
   return (
@@ -33,5 +33,5 @@ export function NewUserPage() {
 
       <UserForm onSubmit={handleCreate} submitText="Crear usuario" />
     </div>
-  )
+  );
 }

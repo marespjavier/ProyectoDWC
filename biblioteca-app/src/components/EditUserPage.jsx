@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom";
 
-import { getUser, updateUser } from "../api/usersApi"
+import { getUser, updateUser } from "../api/usersApi";
 
 /*
 |--------------------------------------------------------------------------
@@ -11,13 +11,13 @@ import { getUser, updateUser } from "../api/usersApi"
 */
 
 export function EditUserPage() {
-  const { id } = useParams()
+  const { id } = useParams();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
-  const [saving, setSaving] = useState(false)
+  const [saving, setSaving] = useState(false);
 
   const [form, setForm] = useState({
     nombre: "",
@@ -25,7 +25,7 @@ export function EditUserPage() {
     telefono: "",
     direccion: "",
     password: "",
-  })
+  });
 
   /*
   |--------------------------------------------------------------------------
@@ -36,7 +36,7 @@ export function EditUserPage() {
   useEffect(() => {
     async function loadUser() {
       try {
-        const data = await getUser(id)
+        const data = await getUser(id);
 
         setForm({
           nombre: data.nombre ?? "",
@@ -48,16 +48,16 @@ export function EditUserPage() {
           direccion: data.direccion ?? "",
 
           password: "",
-        })
+        });
       } catch (err) {
-        alert(err.message)
+        alert(err.message);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     }
 
-    loadUser()
-  }, [id])
+    loadUser();
+  }, [id]);
 
   /*
   |--------------------------------------------------------------------------
@@ -66,12 +66,12 @@ export function EditUserPage() {
   */
 
   function handleChange(e) {
-    const { name, value } = e.target
+    const { name, value } = e.target;
 
     setForm((prev) => ({
       ...prev,
       [name]: value,
-    }))
+    }));
   }
 
   /*
@@ -81,14 +81,14 @@ export function EditUserPage() {
   */
 
   async function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
 
-    setSaving(true)
+    setSaving(true);
 
     try {
       const payload = {
         ...form,
-      }
+      };
 
       /*
       |--------------------------------------------------------------------------
@@ -97,21 +97,21 @@ export function EditUserPage() {
       */
 
       if (!payload.password) {
-        delete payload.password
+        delete payload.password;
       }
 
-      await updateUser(id, payload)
+      await updateUser(id, payload);
 
-      navigate("/users")
+      navigate("/users");
     } catch (err) {
-      alert(err.message)
+      alert(err.message);
     } finally {
-      setSaving(false)
+      setSaving(false);
     }
   }
 
   if (loading) {
-    return <p>Cargando usuario...</p>
+    return <Loader text="Cargando usuario..." />;
   }
 
   return (
@@ -179,5 +179,5 @@ export function EditUserPage() {
         </div>
       </form>
     </div>
-  )
+  );
 }

@@ -1,8 +1,8 @@
-import { useState } from "react"
+import { useState } from "react";
 
-import { useNavigate, useParams, Link } from "react-router-dom"
+import { useNavigate, useParams, Link } from "react-router-dom";
 
-import { useCreateReview } from "../hooks/useCreateReview"
+import { useCreateReview } from "../hooks/useCreateReview";
 
 /*
 |--------------------------------------------------------------------------
@@ -17,11 +17,11 @@ export function ReviewPage() {
   |--------------------------------------------------------------------------
   */
 
-  const { id } = useParams()
+  const { id } = useParams();
 
-  const bookId = Number(id)
+  const bookId = Number(id);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   /*
   |--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ export function ReviewPage() {
   |--------------------------------------------------------------------------
   */
 
-  const currentUser = JSON.parse(localStorage.getItem("user"))
+  const currentUser = JSON.parse(localStorage.getItem("user"));
 
   /*
   |--------------------------------------------------------------------------
@@ -37,7 +37,7 @@ export function ReviewPage() {
   |--------------------------------------------------------------------------
   */
 
-  const { saving, error, saveReview } = useCreateReview()
+  const { saving, error, saveReview } = useCreateReview();
 
   /*
   |--------------------------------------------------------------------------
@@ -45,11 +45,11 @@ export function ReviewPage() {
   |--------------------------------------------------------------------------
   */
 
-  const [rating, setRating] = useState("5")
+  const [rating, setRating] = useState("5");
 
-  const [text, setText] = useState("")
+  const [text, setText] = useState("");
 
-  const [fieldErrors, setFieldErrors] = useState({})
+  const [fieldErrors, setFieldErrors] = useState({});
 
   /*
   |--------------------------------------------------------------------------
@@ -58,11 +58,11 @@ export function ReviewPage() {
   */
 
   function validate() {
-    const errors = {}
+    const errors = {};
 
-    const textTrim = text.trim()
+    const textTrim = text.trim();
 
-    const ratingNum = Number(rating)
+    const ratingNum = Number(rating);
 
     /*
     |--------------------------------------------------------------------------
@@ -71,9 +71,9 @@ export function ReviewPage() {
     */
 
     if (!Number.isFinite(ratingNum)) {
-      errors.rating = "La puntuación no es válida."
+      errors.rating = "La puntuación no es válida.";
     } else if (ratingNum < 1 || ratingNum > 5) {
-      errors.rating = "La puntuación debe estar entre 1 y 5."
+      errors.rating = "La puntuación debe estar entre 1 y 5.";
     }
 
     /*
@@ -83,14 +83,14 @@ export function ReviewPage() {
     */
 
     if (!textTrim) {
-      errors.text = "La reseña es obligatoria."
+      errors.text = "La reseña es obligatoria.";
     } else if (textTrim.length < 20) {
-      errors.text = "La reseña debe tener al menos 20 caracteres."
+      errors.text = "La reseña debe tener al menos 20 caracteres.";
     }
 
-    setFieldErrors(errors)
+    setFieldErrors(errors);
 
-    return Object.keys(errors).length === 0
+    return Object.keys(errors).length === 0;
   }
 
   /*
@@ -100,9 +100,9 @@ export function ReviewPage() {
   */
 
   async function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (!validate()) return
+    if (!validate()) return;
 
     /*
     |--------------------------------------------------------------------------
@@ -122,9 +122,9 @@ export function ReviewPage() {
       text: text.trim(),
 
       createdAt: new Date().toISOString().slice(0, 10),
-    }
+    };
 
-    const created = await saveReview(review)
+    const created = await saveReview(review);
 
     /*
     |--------------------------------------------------------------------------
@@ -133,7 +133,7 @@ export function ReviewPage() {
     */
 
     if (created) {
-      navigate(`/libro/${bookId}`)
+      navigate(`/libro/${bookId}`);
     }
   }
 
@@ -202,5 +202,5 @@ export function ReviewPage() {
         </div>
       </form>
     </div>
-  )
+  );
 }

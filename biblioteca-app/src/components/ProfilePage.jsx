@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
-import { getUser } from "../api/usersApi"
+import { getUser } from "../api/usersApi";
 
-import { getPrestamos } from "../api/prestamosApi"
+import { getPrestamos } from "../api/prestamosApi";
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +17,7 @@ export function ProfilePage() {
   |--------------------------------------------------------------------------
   */
 
-  const currentUser = JSON.parse(localStorage.getItem("user"))
+  const currentUser = JSON.parse(localStorage.getItem("user"));
 
   /*
   |--------------------------------------------------------------------------
@@ -25,13 +25,13 @@ export function ProfilePage() {
   |--------------------------------------------------------------------------
   */
 
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null);
 
-  const [prestamos, setPrestamos] = useState([])
+  const [prestamos, setPrestamos] = useState([]);
 
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(null);
 
   /*
   |--------------------------------------------------------------------------
@@ -48,9 +48,9 @@ export function ProfilePage() {
         |--------------------------------------------------------------------------
         */
 
-        const userData = await getUser(currentUser.id)
+        const userData = await getUser(currentUser.id);
 
-        setUser(userData)
+        setUser(userData);
 
         /*
         |--------------------------------------------------------------------------
@@ -58,18 +58,18 @@ export function ProfilePage() {
         |--------------------------------------------------------------------------
         */
 
-        const prestamosData = await getPrestamos()
+        const prestamosData = await getPrestamos();
 
-        setPrestamos(prestamosData)
+        setPrestamos(prestamosData);
       } catch (err) {
-        setError(err.message)
+        setError(err.message);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     }
 
-    loadData()
-  }, [])
+    loadData();
+  }, []);
 
   /*
   |--------------------------------------------------------------------------
@@ -78,11 +78,11 @@ export function ProfilePage() {
   */
 
   if (loading) {
-    return <p>Cargando perfil...</p>
+    return <Loader text="Cargando perfil..." />;
   }
 
   if (error) {
-    return <p className="error">{error}</p>
+    return <p className="error">{error}</p>;
   }
 
   /*
@@ -91,11 +91,11 @@ export function ProfilePage() {
   |--------------------------------------------------------------------------
   */
 
-  const activos = prestamos.filter((p) => p.estado === "activo").length
+  const activos = prestamos.filter((p) => p.estado === "activo").length;
 
-  const retrasados = prestamos.filter((p) => p.estado === "retrasado").length
+  const retrasados = prestamos.filter((p) => p.estado === "retrasado").length;
 
-  const historial = prestamos.length
+  const historial = prestamos.length;
 
   return (
     <div className="profile-page">
@@ -188,5 +188,5 @@ export function ProfilePage() {
         </div>
       </section>
     </div>
-  )
+  );
 }

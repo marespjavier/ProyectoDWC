@@ -1,17 +1,17 @@
-import { API_URL } from "./config"
+import { API_URL } from "./config";
 
 /*
   Headers autenticación
 */
 
 function getHeaders() {
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem("token");
 
   return {
     "Content-Type": "application/json",
     Accept: "application/json",
     Authorization: `Bearer ${token}`,
-  }
+  };
 }
 
 /*
@@ -21,12 +21,12 @@ function getHeaders() {
 export async function getUsers() {
   const response = await fetch(`${API_URL}/user`, {
     headers: getHeaders(),
-  })
+  });
 
-  const data = await response.json()
+  const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data?.message ?? "No se pudieron cargar usuarios")
+    throw new Error(data?.message ?? "No se pudieron cargar usuarios");
   }
 
   /*
@@ -35,7 +35,7 @@ export async function getUsers() {
   |--------------------------------------------------------------------------
   */
 
-  return data.data ?? data
+  return data.data ?? data;
 }
 
 /*
@@ -47,15 +47,15 @@ export async function getUsers() {
 export async function getUser(id) {
   const response = await fetch(`${API_URL}/user/${id}`, {
     headers: getHeaders(),
-  })
+  });
 
-  const data = await response.json()
+  const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data?.message || "Error obteniendo usuario")
+    throw new Error(data?.message || "Error obteniendo usuario");
   }
 
-  return data.data
+  return data.data;
 }
 
 /*
@@ -71,15 +71,15 @@ export async function createUser(user) {
     headers: getHeaders(),
 
     body: JSON.stringify(user),
-  })
+  });
 
-  const data = await response.json()
+  const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data?.message ?? "No se pudo crear el usuario")
+    throw new Error(data?.message ?? "No se pudo crear el usuario");
   }
 
-  return data
+  return data;
 }
 
 /*
@@ -93,15 +93,15 @@ export async function deleteUser(id) {
     method: "DELETE",
 
     headers: getHeaders(),
-  })
+  });
 
-  const data = await response.json()
+  const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data?.message || "Error eliminando usuario")
+    throw new Error(data?.message || "Error eliminando usuario");
   }
 
-  return data
+  return data;
 }
 
 /*
@@ -117,13 +117,13 @@ export async function updateUser(id, userData) {
     headers: getHeaders(),
 
     body: JSON.stringify(userData),
-  })
+  });
 
-  const data = await response.json()
+  const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data?.message || "Error actualizando usuario")
+    throw new Error(data?.message || "Error actualizando usuario");
   }
 
-  return data.data
+  return data.data;
 }

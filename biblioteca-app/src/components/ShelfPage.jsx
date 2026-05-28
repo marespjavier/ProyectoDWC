@@ -1,6 +1,6 @@
-import { useBooks } from "../hooks/useBooks"
-import { useShelf } from "../context/ShelfContext"
-import { Link } from "react-router-dom"
+import { useBooks } from "../hooks/useBooks";
+import { useShelf } from "../context/ShelfContext";
+import { Link } from "react-router-dom";
 
 /*
   Página "Mi estantería".
@@ -9,11 +9,13 @@ import { Link } from "react-router-dom"
 */
 
 export function ShelfPage() {
-  const { books, loading, error } = useBooks()
-  const shelf = useShelf()
+  const { books, loading, error } = useBooks();
+  const shelf = useShelf();
 
-  if (loading) return <p>Cargando estantería…</p>
-  if (error) return <p style={{ color: "crimson" }}>Error: {error}</p>
+  if (loading) {
+    return <Loader text="Cargando estantería..." />;
+  }
+  if (error) return <p style={{ color: "crimson" }}>Error: {error}</p>;
 
   if (shelf.items.length === 0) {
     return (
@@ -22,22 +24,22 @@ export function ShelfPage() {
         <p>No tienes libros guardados todavía.</p>
         <Link to="/">Volver al inicio</Link>
       </div>
-    )
+    );
   }
 
   // join: map por id para buscar rápido
-  const bookById = new Map(books.map((b) => [Number(b.id), b]))
+  const bookById = new Map(books.map((b) => [Number(b.id), b]));
 
   // agrupamos por estado
   const groups = {
     favorito: [],
     pendiente: [],
     leido: [],
-  }
+  };
 
   for (const item of shelf.items) {
-    const book = bookById.get(Number(item.bookId))
-    if (book) groups[item.status].push({ item, book })
+    const book = bookById.get(Number(item.bookId));
+    if (book) groups[item.status].push({ item, book });
   }
 
   return (
@@ -48,7 +50,7 @@ export function ShelfPage() {
       <Section title="Pendientes" items={groups.pendiente} />
       <Section title="Leídos" items={groups.leido} />
     </div>
-  )
+  );
 }
 
 function Section({ title, items }) {
@@ -68,5 +70,5 @@ function Section({ title, items }) {
         </ul>
       )}
     </section>
-  )
+  );
 }

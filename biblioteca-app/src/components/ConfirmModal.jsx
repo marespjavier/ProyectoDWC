@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +20,7 @@ export function ConfirmModal({
   |--------------------------------------------------------------------------
   */
 
-  if (!open) return null
+  if (!open) return null;
 
   return (
     <div className="modal-overlay">
@@ -40,5 +40,5 @@ export function ConfirmModal({
         </div>
       </div>
     </div>
-  )
+  );
 }

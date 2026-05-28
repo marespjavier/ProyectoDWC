@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
-import { getBookById, getReviewsByBookId } from "../api/booksApi"
+import { getBookById, getReviewsByBookId } from "../api/booksApi";
 
 /*
 |--------------------------------------------------------------------------
@@ -15,13 +15,13 @@ export function useBookDetail(bookId) {
   |--------------------------------------------------------------------------
   */
 
-  const [book, setBook] = useState(null)
+  const [book, setBook] = useState(null);
 
-  const [reviews, setReviews] = useState([])
+  const [reviews, setReviews] = useState([]);
 
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(null);
 
   /*
   |--------------------------------------------------------------------------
@@ -30,14 +30,14 @@ export function useBookDetail(bookId) {
   */
 
   useEffect(() => {
-    if (!bookId) return
+    if (!bookId) return;
 
-    let cancelled = false
+    let cancelled = false;
 
     async function load() {
-      setLoading(true)
+      setLoading(true);
 
-      setError(null)
+      setError(null);
 
       try {
         /*
@@ -46,7 +46,7 @@ export function useBookDetail(bookId) {
         |--------------------------------------------------------------------------
         */
 
-        const bookData = await getBookById(bookId)
+        const bookData = await getBookById(bookId);
 
         /*
         |--------------------------------------------------------------------------
@@ -54,30 +54,30 @@ export function useBookDetail(bookId) {
         |--------------------------------------------------------------------------
         */
 
-        const reviewsData = await getReviewsByBookId(bookId)
+        const reviewsData = await getReviewsByBookId(bookId);
 
         if (!cancelled) {
-          setBook(bookData)
+          setBook(bookData);
 
-          setReviews(reviewsData)
+          setReviews(reviewsData);
         }
       } catch (err) {
         if (!cancelled) {
-          setError(err instanceof Error ? err.message : "Error desconocido")
+          setError(err instanceof Error ? err.message : "Error desconocido");
         }
       } finally {
         if (!cancelled) {
-          setLoading(false)
+          setLoading(false);
         }
       }
     }
 
-    load()
+    load();
 
     return () => {
-      cancelled = true
-    }
-  }, [bookId])
+      cancelled = true;
+    };
+  }, [bookId]);
 
   /*
   |--------------------------------------------------------------------------
@@ -90,5 +90,5 @@ export function useBookDetail(bookId) {
     reviews,
     loading,
     error,
-  }
+  };
 }

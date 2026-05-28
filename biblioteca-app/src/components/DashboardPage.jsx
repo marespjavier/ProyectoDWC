@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
-import { getDashboardStats } from "../api/dashboardApi"
+import { getDashboardStats } from "../api/dashboardApi";
 
-import { FiBook, FiUsers, FiClock, FiArchive } from "react-icons/fi"
+import { FiBook, FiUsers, FiClock, FiArchive } from "react-icons/fi";
 
 import {
   PieChart,
@@ -17,7 +17,7 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-} from "recharts"
+} from "recharts";
 
 /*
 |--------------------------------------------------------------------------
@@ -26,11 +26,11 @@ import {
 */
 
 export function DashboardPage() {
-  const [stats, setStats] = useState(null)
+  const [stats, setStats] = useState(null);
 
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(null);
 
   /*
   |--------------------------------------------------------------------------
@@ -41,18 +41,18 @@ export function DashboardPage() {
   useEffect(() => {
     async function loadStats() {
       try {
-        const data = await getDashboardStats()
+        const data = await getDashboardStats();
 
-        setStats(data)
+        setStats(data);
       } catch (err) {
-        setError(err.message)
+        setError(err.message);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     }
 
-    loadStats()
-  }, [])
+    loadStats();
+  }, []);
 
   /*
   |--------------------------------------------------------------------------
@@ -61,11 +61,11 @@ export function DashboardPage() {
   */
 
   if (loading) {
-    return <p>Cargando dashboard...</p>
+    return <Loader text="Cargando dashboard..." />;
   }
 
   if (error) {
-    return <p className="error">{error}</p>
+    return <p className="error">{error}</p>;
   }
 
   /*
@@ -92,7 +92,7 @@ export function DashboardPage() {
         stats.prestamosActivos -
         stats.prestamosRetrasados,
     },
-  ]
+  ];
 
   const librosData = [
     {
@@ -104,7 +104,7 @@ export function DashboardPage() {
       name: "Prestados",
       value: stats.totalLibros - stats.librosDisponibles,
     },
-  ]
+  ];
 
   return (
     <div>
@@ -231,5 +231,5 @@ export function DashboardPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

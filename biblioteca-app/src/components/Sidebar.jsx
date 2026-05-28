@@ -1,5 +1,5 @@
-import { NavLink } from "react-router-dom"
-import { useState, useEffect, useRef } from "react"
+import { NavLink } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
 
 import {
   FiHome,
@@ -10,21 +10,21 @@ import {
   FiUser,
   FiLogOut,
   FiMenu,
-} from "react-icons/fi"
+} from "react-icons/fi";
 
-import { canManageBooks } from "../utils/auth"
+import { canManageBooks } from "../utils/auth";
 
 export function Sidebar() {
-  const user = JSON.parse(localStorage.getItem("user"))
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const sidebarRef = useRef(null)
+  const user = JSON.parse(localStorage.getItem("user"));
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const sidebarRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 1024) {
-        setMobileMenuOpen(false)
+        setMobileMenuOpen(false);
       }
-    }
+    };
 
     const handleClickOutside = (e) => {
       if (
@@ -33,29 +33,29 @@ export function Sidebar() {
         !sidebarRef.current.contains(e.target) &&
         !e.target.closest(".mobile-menu-btn")
       ) {
-        setMobileMenuOpen(false)
+        setMobileMenuOpen(false);
       }
-    }
+    };
 
-    window.addEventListener("resize", handleResize)
-    document.addEventListener("mousedown", handleClickOutside)
+    window.addEventListener("resize", handleResize);
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      window.removeEventListener("resize", handleResize)
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [])
+      window.removeEventListener("resize", handleResize);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const closeMobileMenu = () => {
     if (window.innerWidth <= 1024) {
-      setMobileMenuOpen(false)
+      setMobileMenuOpen(false);
     }
-  }
+  };
 
   function handleLogout() {
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
-    window.location.href = "/"
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.location.href = "/";
   }
 
   return (
@@ -177,5 +177,5 @@ export function Sidebar() {
         </div>
       </aside>
     </>
-  )
+  );
 }

@@ -1,4 +1,4 @@
-import { API_URL } from "./config"
+import { API_URL } from "./config";
 
 /*
 |--------------------------------------------------------------------------
@@ -7,13 +7,13 @@ import { API_URL } from "./config"
 */
 
 function getHeaders() {
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem("token");
 
   return {
     Accept: "application/json",
 
     Authorization: `Bearer ${token}`,
-  }
+  };
 }
 
 /*
@@ -25,13 +25,13 @@ function getHeaders() {
 export async function getDashboardStats() {
   const response = await fetch(`${API_URL}/dashboard/stats`, {
     headers: getHeaders(),
-  })
+  });
 
-  const data = await response.json()
+  const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data?.message || "Error cargando dashboard")
+    throw new Error(data?.message || "Error cargando dashboard");
   }
 
-  return data.data
+  return data.data;
 }

@@ -1,11 +1,11 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
 /*
   Tarjeta individual libro
 */
 
 export function BookCard({ book }) {
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem("token");
 
   return (
     <article className="book-card">
@@ -65,5 +65,5 @@ export function BookCard({ book }) {
         </div>
       </div>
     </article>
-  )
+  );
 }

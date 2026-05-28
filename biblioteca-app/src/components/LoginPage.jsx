@@ -1,26 +1,26 @@
-"use strict"
+"use strict";
 
-import { useState } from "react"
-import { useAuth } from "../hooks/useAuth.js"
+import { useState } from "react";
+import { useAuth } from "../hooks/useAuth.js";
 
 export function LoginPage() {
-  const { login } = useAuth()
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState(null)
+  const { login } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
 
   async function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
 
-    setError("")
+    setError("");
 
     try {
-      await login(email, password)
+      await login(email, password);
 
       // Redirección automática al inicio
-      window.location.href = "/"
+      window.location.href = "/";
     } catch (err) {
-      setError("Usuario o contraseña incorrectos")
+      setError("Usuario o contraseña incorrectos");
     }
   }
 
@@ -60,5 +60,5 @@ export function LoginPage() {
         </form>
       </div>
     </div>
-  )
+  );
 }

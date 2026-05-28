@@ -1,14 +1,14 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
-import { useBooks } from "../hooks/useBooks"
+import { useBooks } from "../hooks/useBooks";
 
-import { BookList } from "./BookList"
+import { BookList } from "./BookList";
 
-import { useBookFilters } from "../hooks/useBooksFilters"
+import { useBookFilters } from "../hooks/useBooksFilters";
 
-import { FiSearch, FiFilter, FiRotateCcw } from "react-icons/fi"
+import { FiSearch, FiFilter, FiRotateCcw } from "react-icons/fi";
 
-import { canManageBooks } from "../utils/auth"
+import { canManageBooks } from "../utils/auth";
 
 /*
 |--------------------------------------------------------------------------
@@ -22,10 +22,10 @@ import { canManageBooks } from "../utils/auth"
 */
 
 export function BooksPage() {
-  const { books, loading, error, reload } = useBooks()
+  const { books, loading, error, reload } = useBooks();
 
   const { filters, setFilters, genres, filteredBooks, resetFilters } =
-    useBookFilters(books)
+    useBookFilters(books);
 
   /*
   |--------------------------------------------------------------------------
@@ -33,7 +33,7 @@ export function BooksPage() {
   |--------------------------------------------------------------------------
   */
 
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem("token");
 
   /*
   |--------------------------------------------------------------------------
@@ -42,7 +42,7 @@ export function BooksPage() {
   */
 
   if (loading) {
-    return <p>Cargando libros…</p>
+    return <Loader text="Cargando libro..." />;
   }
 
   /*
@@ -58,7 +58,7 @@ export function BooksPage() {
 
         <button onClick={reload}>Reintentar</button>
       </div>
-    )
+    );
   }
 
   return (
@@ -165,5 +165,5 @@ export function BooksPage() {
 
       <BookList books={filteredBooks} />
     </div>
-  )
+  );
 }

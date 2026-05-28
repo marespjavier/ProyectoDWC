@@ -4,19 +4,19 @@
 
 export class Prestamo {
   constructor(data) {
-    this.id = Number(data?.id)
+    this.id = Number(data?.id);
 
     /*
       Estado
     */
-    this.estado = data?.estado ?? "activo"
+    this.estado = data?.estado ?? "activo";
 
     /*
       Fechas
     */
-    this.fecha_prestamo = data?.fecha_prestamo ?? null
+    this.fecha_prestamo = data?.fecha_prestamo ?? null;
 
-    this.fecha_devolucion = data?.fecha_devolucion ?? null
+    this.fecha_devolucion = data?.fecha_devolucion ?? null;
 
     /*
       Usuario relacionado
@@ -27,7 +27,7 @@ export class Prestamo {
           nombre: data.user.nombre,
           avatar_url: data.user.avatar_url,
         }
-      : null
+      : null;
 
     /*
       Libro relacionado
@@ -37,13 +37,13 @@ export class Prestamo {
           id: data.libro.id,
           titulo: data.libro.titulo,
         }
-      : null
+      : null;
 
     /*
       IDs
     */
-    this.user_id = data?.user_id ?? null
+    this.user_id = data?.user_id ?? null;
 
-    this.libro_id = data?.libro_id ?? null
+    this.libro_id = data?.libro_id ?? null;
   }
 }
