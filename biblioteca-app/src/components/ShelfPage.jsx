@@ -1,6 +1,7 @@
 import { useBooks } from "../hooks/useBooks";
 import { useShelf } from "../context/ShelfContext";
 import { Link } from "react-router-dom";
+import { Loader } from "./Loader";
 
 /*
   Página "Mi estantería".

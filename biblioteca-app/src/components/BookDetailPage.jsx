@@ -12,6 +12,8 @@ import { canManageBooks, isUsuario } from "../utils/auth";
 
 import { ConfirmModal } from "./ConfirmModal";
 
+import { Loader } from "./Loader";
+
 /*
 |--------------------------------------------------------------------------
 | Página detalle libro

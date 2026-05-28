@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getBookById, updateBook } from "../api/booksApi";
 import { BookForm } from "./BookForm";
+import { Loader } from "./Loader";
 
 /*
   Página para editar un libro existente.

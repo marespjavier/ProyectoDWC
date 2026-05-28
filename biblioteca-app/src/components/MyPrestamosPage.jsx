@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getPrestamos } from "../api/prestamosApi";
+import { Loader } from "./Loader";
 
 export function MyPrestamosPage() {
   const [prestamos, setPrestamos] = useState([]);

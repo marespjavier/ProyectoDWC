@@ -6,6 +6,8 @@ import { getDashboardStats } from "../api/dashboardApi";
 
 import { FiBook, FiUsers, FiClock, FiArchive } from "react-icons/fi";
 
+import { Loader } from "./Loader";
+
 import {
   PieChart,
   Pie,

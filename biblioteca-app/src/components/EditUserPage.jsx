@@ -4,6 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { getUser, updateUser } from "../api/usersApi";
 
+import { Loader } from "./Loader";
+
 /*
 |--------------------------------------------------------------------------
 | Editar usuario

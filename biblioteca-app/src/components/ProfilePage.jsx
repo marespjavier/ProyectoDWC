@@ -4,6 +4,8 @@ import { getUser } from "../api/usersApi";
 
 import { getPrestamos } from "../api/prestamosApi";
 
+import { Loader } from "./Loader";
+
 /*
 |--------------------------------------------------------------------------
 | Perfil usuario

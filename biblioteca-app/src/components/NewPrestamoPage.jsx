@@ -8,6 +8,8 @@ import { getUsers } from "../api/usersApi";
 
 import { createPrestamo } from "../api/prestamosApi";
 
+import { Loader } from "./Loader";
+
 export function NewPrestamoPage() {
   const navigate = useNavigate();
 

@@ -8,6 +8,8 @@ import { ConfirmModal } from "./ConfirmModal";
 
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
 
+import { Loader } from "./Loader";
+
 /*
 |--------------------------------------------------------------------------
 | Gestión usuarios

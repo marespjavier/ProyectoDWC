@@ -14,6 +14,8 @@ import { ConfirmModal } from "./ConfirmModal";
 
 import { FiEye, FiTrash2, FiCheck } from "react-icons/fi";
 
+import { Loader } from "./Loader";
+
 export function PrestamosPage() {
   const [prestamos, setPrestamos] = useState([]);
 

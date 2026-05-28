@@ -10,6 +10,8 @@ import { FiSearch, FiFilter, FiRotateCcw } from "react-icons/fi";
 
 import { canManageBooks } from "../utils/auth";
 
+import { Loader } from "./Loader";
+
 /*
 |--------------------------------------------------------------------------
 | Página listado libros
