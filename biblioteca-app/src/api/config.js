@@ -5,4 +5,5 @@
   En desarrollo, json-server suele ejecutarse en localhost.
 */
 
-export const API_URL = "http://localhost:80/api"
+export const API_URL =
+  import.meta.env.VITE_API_URL;
