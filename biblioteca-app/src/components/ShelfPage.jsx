@@ -9,7 +9,9 @@ import { Loader } from "./Loader";
   para poder mostrar título y enlace al detalle.
 */
 
-export function ShelfPage() {
+export function ShelfPage({
+  embedded = false,
+}) {
   const { books, loading, error } = useBooks();
   const shelf = useShelf();
 

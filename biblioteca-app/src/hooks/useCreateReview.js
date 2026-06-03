@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createReview } from "../api/booksApi";
+import { createReview } from "../api/reviewsApi";
 
 /*
   Hook para crear reseñas.

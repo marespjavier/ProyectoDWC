@@ -234,19 +234,27 @@ export function BookDetailPage() {
                 <div className="review-header">
                   {/* AVATAR */}
 
-                  <img
-                    src={r.userAvatar ?? "https://i.pravatar.cc/100"}
-                    alt={r.user}
-                    className="review-avatar"
-                  />
+                  <article key={r.id} className="review-card">
+                    <div className="review-header">
+                      <img
+                        src={r.user?.avatar_url ?? "https://i.pravatar.cc/100"}
+                        alt={r.user?.nombre}
+                        className="review-avatar"
+                      />
 
-                  {/* INFO */}
+                      <div>
+                        <strong>{r.user?.nombre}</strong>
 
-                  <div>
-                    <strong>{r.user}</strong>
+                        <p>⭐ {r.rating}/5</p>
+                      </div>
+                    </div>
 
-                    <p>⭐ {r.rating}/5</p>
-                  </div>
+                    <p className="review-text">{r.comentario}</p>
+
+                    <small className="review-date">
+                      {new Date(r.created_at).toLocaleDateString("es-ES")}
+                    </small>
+                  </article>
                 </div>
 
                 {/* TEXTO */}

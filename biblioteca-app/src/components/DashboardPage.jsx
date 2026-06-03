@@ -4,7 +4,15 @@ import { Link } from "react-router-dom";
 
 import { getDashboardStats } from "../api/dashboardApi";
 
-import { FiBook, FiUsers, FiClock, FiArchive } from "react-icons/fi";
+import {
+  FiBook,
+  FiUsers,
+  FiClock,
+  FiArchive,
+  FiStar,
+  FiMessageSquare,
+  FiAward,
+} from "react-icons/fi";
 
 import { Loader } from "./Loader";
 
@@ -108,6 +116,13 @@ export function DashboardPage() {
     },
   ];
 
+  const reviewsData = [
+    {
+      name: "Media",
+      value: stats.ratingMedia,
+    },
+  ];
+
   return (
     <div>
       <div className="page-header modern-header">
@@ -179,15 +194,63 @@ export function DashboardPage() {
 
             <h2>{stats.usuarios}</h2>
 
-            <p>Gestionar usuarios</p>
+            <p>Usuarios</p>
           </article>
         </Link>
+
+        {/* RESEÑAS */}
+
+        <article className="dashboard-card">
+          <div className="dashboard-icon">
+            <FiMessageSquare />
+          </div>
+
+          <h2>{stats.totalReviews}</h2>
+
+          <p>Reseñas publicadas</p>
+        </article>
+
+        {/* VALORACIÓN MEDIA */}
+
+        <article className="dashboard-card">
+          <div className="dashboard-icon">
+            <FiStar />
+          </div>
+
+          <h2>{stats.ratingMedia}</h2>
+
+          <p>Valoración media</p>
+        </article>
+
+        {/* USUARIOS CON RESEÑAS */}
+
+        <article className="dashboard-card">
+          <div className="dashboard-icon">
+            <FiUsers />
+          </div>
+
+          <h2>{stats.usuariosConReviews}</h2>
+
+          <p>Usuarios que reseñan</p>
+        </article>
+
+        {/* LIBRO MEJOR VALORADO */}
+
+        <article className="dashboard-card">
+          <div className="dashboard-icon">
+            <FiAward />
+          </div>
+
+          <h2>{stats.bestBook?.rating ?? "-"}</h2>
+
+          <p>{stats.bestBook?.titulo ?? "Sin datos"}</p>
+        </article>
       </div>
 
       {/* CHARTS */}
 
       <div className="charts-grid">
-        {/* PIE CHART */}
+        {/* ESTADO PRÉSTAMOS */}
 
         <div className="chart-card">
           <h2>Estado préstamos</h2>
@@ -201,9 +264,7 @@ export function DashboardPage() {
                 outerRadius={110}
               >
                 <Cell fill="#2563eb" />
-
                 <Cell fill="#dc2626" />
-
                 <Cell fill="#16a34a" />
               </Pie>
 
@@ -212,7 +273,7 @@ export function DashboardPage() {
           </ResponsiveContainer>
         </div>
 
-        {/* BAR CHART */}
+        {/* ESTADO LIBROS */}
 
         <div className="chart-card">
           <h2>Estado libros</h2>
@@ -231,7 +292,82 @@ export function DashboardPage() {
             </BarChart>
           </ResponsiveContainer>
         </div>
+
+        {/* VALORACIÓN MEDIA */}
+
+        <div className="chart-card">
+          <h2>Valoración media biblioteca</h2>
+
+          <ResponsiveContainer width="100%" height={320}>
+            <BarChart data={reviewsData}>
+              <CartesianGrid strokeDasharray="3 3" />
+
+              <XAxis dataKey="name" />
+
+              <YAxis domain={[0, 5]} />
+
+              <Tooltip />
+
+              <Bar dataKey="value" radius={[10, 10, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
+      <div className="dashboard-ranking-grid">
+  {/* TOP LIBROS */}
+
+  <div className="ranking-card">
+    <h2>
+      <FiAward />
+      Top libros valorados
+    </h2>
+
+    {stats.topBooks?.length > 0 ? (
+      <ul className="ranking-list">
+        {stats.topBooks.map((book, index) => (
+          <li key={book.libro_id}>
+            <span>
+              #{index + 1} {book.libro?.titulo}
+            </span>
+
+            <strong>
+              ⭐ {Number(book.media).toFixed(1)}
+            </strong>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p>Sin datos</p>
+    )}
+  </div>
+
+  {/* TOP USUARIOS */}
+
+  <div className="ranking-card">
+    <h2>
+      <FiUsers />
+      Usuarios más activos
+    </h2>
+
+    {stats.topUsers?.length > 0 ? (
+      <ul className="ranking-list">
+        {stats.topUsers.map((user, index) => (
+          <li key={user.user_id}>
+            <span>
+              #{index + 1} {user.user?.nombre}
+            </span>
+
+            <strong>
+              {user.total_reviews} reseñas
+            </strong>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p>Sin datos</p>
+    )}
+  </div>
+</div>
     </div>
   );
 }

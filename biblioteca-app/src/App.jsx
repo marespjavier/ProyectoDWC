@@ -22,8 +22,6 @@ import { ReviewPage } from "./components/ReviewPage";
 
 import { PrestamosPage } from "./components/PrestamosPage.jsx";
 
-import { MyPrestamosPage } from "./components/MyPrestamosPage.jsx";
-
 import { NewPrestamoPage } from "./components/NewPrestamoPage.jsx";
 
 import { NotFoundPage } from "./components/NotFoundPage";
@@ -122,10 +120,6 @@ function App() {
               {/* ESTANTERÍA */}
 
               <Route path="/shelf" element={<ShelfPage />} />
-
-              {/* MIS PRÉSTAMOS */}
-
-              <Route path="/mis-prestamos" element={<MyPrestamosPage />} />
 
               {/* PERFIL */}
 

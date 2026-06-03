@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 
-import { getBookById, getReviewsByBookId } from "../api/booksApi";
+import { getBookById } from "../api/booksApi";
+
+import { getReviewsByBookId } from "../api/reviewsApi";
 
 /*
 |--------------------------------------------------------------------------

@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from "react";
 
 import {
   FiHome,
-  FiBook,
   FiUsers,
   FiClipboard,
   FiGrid,
@@ -98,32 +97,12 @@ export function Sidebar() {
           </NavLink>
 
           <NavLink
-            to="/shelf"
-            onClick={closeMobileMenu}
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            <FiBook />
-            <span>Mi estantería</span>
-          </NavLink>
-
-          {!canManageBooks() && (
-            <NavLink
-              to="/mis-prestamos"
-              onClick={closeMobileMenu}
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              <FiClipboard />
-              <span>Mis préstamos</span>
-            </NavLink>
-          )}
-
-          <NavLink
             to="/perfil"
             onClick={closeMobileMenu}
             className={({ isActive }) => (isActive ? "active" : "")}
           >
             <FiUser />
-            <span>Mi perfil</span>
+            <span>Mi cuenta</span>
           </NavLink>
 
           {canManageBooks() && (

@@ -30,12 +30,15 @@ export class Prestamo {
       : null;
 
     /*
-      Libro relacionado
-    */
+  Libro relacionado
+*/
     this.libro = data?.libro
       ? {
           id: data.libro.id,
           titulo: data.libro.titulo,
+          isbn: data.libro.isbn,
+          imagen_url: data.libro.imagen_url,
+          disponible: data.libro.disponible,
         }
       : null;
 

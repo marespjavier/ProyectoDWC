@@ -111,17 +111,11 @@ export function ReviewPage() {
     */
 
     const review = {
-      bookId,
-
-      user: currentUser?.nombre ?? "Usuario",
-
-      userAvatar: currentUser?.avatar_url ?? null,
+      libro_id: bookId,
 
       rating: Number(rating),
 
-      text: text.trim(),
-
-      createdAt: new Date().toISOString().slice(0, 10),
+      comentario: text.trim(),
     };
 
     const created = await saveReview(review);
