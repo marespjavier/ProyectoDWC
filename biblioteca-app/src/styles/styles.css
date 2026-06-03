@@ -658,8 +658,7 @@ ESPACIADOS EXTRA
   Separación botón / enlaces
 */
 
-.book-card .form-actions,
-.book-card a {
+.book-card .form-actions {
   margin-top: 8px;
 }
 
@@ -3120,3 +3119,11 @@ MIS RESEÑAS
 .ranking-list li:last-child {
   border-bottom: none;
 }
+
+.book-card-content h3 {
+  height: 64px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
