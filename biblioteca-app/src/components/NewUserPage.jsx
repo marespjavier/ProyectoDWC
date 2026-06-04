@@ -1,3 +1,7 @@
+"use strict";
+
+import { useDocumentTitle } from "../hooks/useDocumentTitle.js";
+
 import { useNavigate } from "react-router-dom";
 
 import { UserForm } from "./UserForm";
@@ -12,6 +16,7 @@ import { createUser } from "../api/usersApi";
 
 export function NewUserPage() {
   const navigate = useNavigate();
+  useDocumentTitle("LibCloud - Nuevo usuario");
 
   /*
   |--------------------------------------------------------------------------

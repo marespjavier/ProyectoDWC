@@ -1,4 +1,5 @@
 import { BooksPage } from "./BooksPage.jsx";
+import { useDocumentTitle } from "../hooks/useDocumentTitle.js";
 
 /*
   Página de inicio.
@@ -6,5 +7,6 @@ import { BooksPage } from "./BooksPage.jsx";
 */
 
 export function HomePage() {
+  useDocumentTitle("LibCloud - Tu Biblioteca Digital");
   return <BooksPage />;
 }

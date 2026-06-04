@@ -1,4 +1,8 @@
+"use strict";
+
 import { useParams, Link, useNavigate } from "react-router-dom";
+
+import { useDocumentTitle } from "../hooks/useDocumentTitle.js";
 
 import { useState } from "react";
 
@@ -21,6 +25,7 @@ import { Loader } from "./Loader";
 */
 
 export function BookDetailPage() {
+  useDocumentTitle("LibCloud - Detalle del libro");
   /*
   |--------------------------------------------------------------------------
   | Params
@@ -108,7 +113,7 @@ export function BookDetailPage() {
   */
 
   if (!book) {
-    return <p>Libro no encontrado</p>;
+    return <p>El libro solicitado no existe o ya no está disponible.</p>;
   }
 
   return (

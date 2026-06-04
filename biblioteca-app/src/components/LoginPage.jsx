@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import { useAuth } from "../hooks/useAuth.js";
+import { useDocumentTitle } from "../hooks/useDocumentTitle.js";
 
 export function LoginPage() {
   const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  useDocumentTitle("LibCloud - Iniciar sesión");
   const [error, setError] = useState(null);
 
   async function handleSubmit(e) {
@@ -20,7 +22,7 @@ export function LoginPage() {
       // Redirección automática al inicio
       window.location.href = "/";
     } catch (err) {
-      setError("Usuario o contraseña incorrectos");
+      setError("Las credenciales introducidas no son válidas.");
     }
   }
 

@@ -1,3 +1,5 @@
+"use strict";
+
 import { useState } from "react";
 
 import { useBooks } from "../hooks/useBooks";
@@ -9,6 +11,7 @@ import { Loader } from "./Loader";
 import { ConfirmModal } from "./ConfirmModal";
 
 export function ShelfPage({ embedded = false }) {
+
   const { books, loading, error } = useBooks();
 
   const shelf = useShelf();
@@ -26,7 +29,7 @@ export function ShelfPage({ embedded = false }) {
       <div className="empty-shelf">
         <h1>Mi estantería</h1>
 
-        <p>No tienes libros guardados todavía.</p>
+        <p>Tu estantería está vacía. Explora la biblioteca y guarda tus lecturas favoritas.</p>
 
         <Link to="/" className="btn-secondary">
           Explorar biblioteca

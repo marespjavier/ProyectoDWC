@@ -1,3 +1,6 @@
+"use strict";
+
+import { useDocumentTitle } from "../hooks/useDocumentTitle.js";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BookForm } from "./BookForm";
@@ -10,6 +13,7 @@ import { createBook } from "../api/booksApi";
 */
 
 export function NewBookPage() {
+  useDocumentTitle("LibCloud - Nuevo libro");
   const navigate = useNavigate();
   const [saving, setSaving] = useState(false);
 

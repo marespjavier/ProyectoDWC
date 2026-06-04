@@ -1,4 +1,7 @@
+"use strict";
+
 import { useEffect, useState } from "react";
+import { useDocumentTitle } from "../hooks/useDocumentTitle.js";
 
 import { Link } from "react-router-dom";
 
@@ -36,6 +39,9 @@ import {
 */
 
 export function DashboardPage() {
+
+  useDocumentTitle("LibCloud - Panel administración");
+  
   const [stats, setStats] = useState(null);
 
   const [loading, setLoading] = useState(true);
@@ -243,7 +249,10 @@ export function DashboardPage() {
 
           <h2>{stats.bestBook?.rating ?? "-"}</h2>
 
-          <p>{stats.bestBook?.titulo ?? "Sin datos"}</p>
+          <p>
+            {stats.bestBook?.titulo ??
+              "Todavía no existen suficientes datos para mostrar estadísticas."}
+          </p>
         </article>
       </div>
 
@@ -314,60 +323,60 @@ export function DashboardPage() {
         </div>
       </div>
       <div className="dashboard-ranking-grid">
-  {/* TOP LIBROS */}
+        {/* TOP LIBROS */}
 
-  <div className="ranking-card">
-    <h2>
-      <FiAward />
-      Top libros valorados
-    </h2>
+        <div className="ranking-card">
+          <h2>
+            <FiAward />
+            Top libros valorados
+          </h2>
 
-    {stats.topBooks?.length > 0 ? (
-      <ul className="ranking-list">
-        {stats.topBooks.map((book, index) => (
-          <li key={book.libro_id}>
-            <span>
-              #{index + 1} {book.libro?.titulo}
-            </span>
+          {stats.topBooks?.length > 0 ? (
+            <ul className="ranking-list">
+              {stats.topBooks.map((book, index) => (
+                <li key={book.libro_id}>
+                  <span>
+                    #{index + 1} {book.libro?.titulo}
+                  </span>
 
-            <strong>
-              ⭐ {Number(book.media).toFixed(1)}
-            </strong>
-          </li>
-        ))}
-      </ul>
-    ) : (
-      <p>Sin datos</p>
-    )}
-  </div>
+                  <strong>⭐ {Number(book.media).toFixed(1)}</strong>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>
+              Todavía no existen suficientes datos para mostrar estadísticas.
+            </p>
+          )}
+        </div>
 
-  {/* TOP USUARIOS */}
+        {/* TOP USUARIOS */}
 
-  <div className="ranking-card">
-    <h2>
-      <FiUsers />
-      Usuarios más activos
-    </h2>
+        <div className="ranking-card">
+          <h2>
+            <FiUsers />
+            Usuarios más activos
+          </h2>
 
-    {stats.topUsers?.length > 0 ? (
-      <ul className="ranking-list">
-        {stats.topUsers.map((user, index) => (
-          <li key={user.user_id}>
-            <span>
-              #{index + 1} {user.user?.nombre}
-            </span>
+          {stats.topUsers?.length > 0 ? (
+            <ul className="ranking-list">
+              {stats.topUsers.map((user, index) => (
+                <li key={user.user_id}>
+                  <span>
+                    #{index + 1} {user.user?.nombre}
+                  </span>
 
-            <strong>
-              {user.total_reviews} reseñas
-            </strong>
-          </li>
-        ))}
-      </ul>
-    ) : (
-      <p>Sin datos</p>
-    )}
-  </div>
-</div>
+                  <strong>{user.total_reviews} reseñas</strong>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>
+              Todavía no existen suficientes datos para mostrar estadísticas.
+            </p>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

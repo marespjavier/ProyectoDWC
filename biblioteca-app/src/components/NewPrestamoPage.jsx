@@ -1,3 +1,7 @@
+"use strict";
+
+import { useDocumentTitle } from "../hooks/useDocumentTitle.js";
+
 import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
@@ -12,6 +16,7 @@ import { Loader } from "./Loader";
 
 export function NewPrestamoPage() {
   const navigate = useNavigate();
+  useDocumentTitle("LibCloud - Nuevo préstamo");
 
   /*
     Estados

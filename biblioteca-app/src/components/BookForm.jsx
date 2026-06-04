@@ -1,3 +1,5 @@
+"use strict";
+
 import { useState, useEffect, act } from "react";
 
 import { getAutores } from "../api/autoresApi";

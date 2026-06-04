@@ -1,4 +1,7 @@
+"use strict";
+
 import { useEffect, useState } from "react";
+import { useDocumentTitle } from "../hooks/useDocumentTitle.js";
 
 import { getUser } from "../api/usersApi";
 import { getPrestamos } from "../api/prestamosApi";
@@ -23,6 +26,9 @@ import {
 */
 
 export function ProfilePage() {
+
+  useDocumentTitle("LibCloud - Mi perfil");
+
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
   const [user, setUser] = useState(null);

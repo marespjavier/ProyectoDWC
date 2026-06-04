@@ -1,4 +1,8 @@
+"use strict";
+
 import { useEffect, useState } from "react";
+
+import { useDocumentTitle } from "../hooks/useDocumentTitle.js";
 
 import {
   getPrestamos,
@@ -17,6 +21,9 @@ import { FiEye, FiTrash2, FiCheck } from "react-icons/fi";
 import { Loader } from "./Loader";
 
 export function PrestamosPage() {
+
+  useDocumentTitle("LibCloud - Gestión préstamos");
+
   const [prestamos, setPrestamos] = useState([]);
 
   const [loading, setLoading] = useState(true);

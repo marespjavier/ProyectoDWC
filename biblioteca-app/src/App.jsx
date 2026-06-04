@@ -38,11 +38,12 @@ import { NewUserPage } from "./components/NewUserPage.jsx";
 
 /*
 |--------------------------------------------------------------------------
-| Sidebar
+| Sidebar/Footer
 |--------------------------------------------------------------------------
 */
 
 import { Sidebar } from "./components/Sidebar";
+import { Footer } from "./components/Footer";
 
 /*
 |--------------------------------------------------------------------------
@@ -163,6 +164,10 @@ function App() {
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
+
+        {/* FOOTER */}
+
+        <Footer />
       </main>
     </div>
   );

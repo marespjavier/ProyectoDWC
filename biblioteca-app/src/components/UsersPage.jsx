@@ -1,3 +1,7 @@
+"use strict";
+
+import { useDocumentTitle } from "../hooks/useDocumentTitle.js";
+
 import { useEffect, useState } from "react";
 
 import { getUsers, deleteUser } from "../api/usersApi";
@@ -17,6 +21,9 @@ import { Loader } from "./Loader";
 */
 
 export function UsersPage() {
+  
+  useDocumentTitle("LibCloud - Gestión usuarios");
+
   const [users, setUsers] = useState([]);
 
   const [loading, setLoading] = useState(true);
