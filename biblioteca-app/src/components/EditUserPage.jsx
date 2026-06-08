@@ -6,6 +6,8 @@ import { getUser, updateUser } from "../api/usersApi";
 
 import { Loader } from "./Loader";
 
+import { ConfirmModal } from "./ConfirmModal";
+
 /*
 |--------------------------------------------------------------------------
 | Editar usuario
@@ -20,6 +22,8 @@ export function EditUserPage() {
   const [loading, setLoading] = useState(true);
 
   const [saving, setSaving] = useState(false);
+
+  const [accessDenied, setAccessDenied] = useState(false);
 
   const [form, setForm] = useState({
     nombre: "",
@@ -52,7 +56,15 @@ export function EditUserPage() {
           password: "",
         });
       } catch (err) {
-        alert(err.message);
+        if (
+          err.message?.includes("unauthorized") ||
+          err.message?.includes("Unauthorized") ||
+          err.message?.includes("403")
+        ) {
+          setAccessDenied(true);
+        } else {
+          alert(err.message);
+        }
       } finally {
         setLoading(false);
       }
@@ -106,14 +118,47 @@ export function EditUserPage() {
 
       navigate("/users");
     } catch (err) {
-      alert(err.message);
+      if (
+        err.message?.includes("unauthorized") ||
+        err.message?.includes("Unauthorized") ||
+        err.message?.includes("403")
+      ) {
+        setAccessDenied(true);
+      } else {
+        alert(err.message);
+      }
     } finally {
       setSaving(false);
     }
   }
 
+  /*
+  |--------------------------------------------------------------------------
+  | Loader
+  |--------------------------------------------------------------------------
+  */
+
   if (loading) {
     return <Loader text="Cargando usuario..." />;
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Acceso denegado
+  |--------------------------------------------------------------------------
+  */
+
+  if (accessDenied) {
+    return (
+      <ConfirmModal
+        open={true}
+        title="Acceso restringido"
+        message="Esta acción requiere permisos de Administrador. Si necesitas modificar usuarios, contacta con un administrador del sistema."
+        confirmText="Volver"
+        onConfirm={() => navigate("/users")}
+        onCancel={() => navigate("/users")}
+      />
+    );
   }
 
   return (
