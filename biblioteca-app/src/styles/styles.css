@@ -3157,10 +3157,21 @@ MIS RESEÑAS
 }
 
 .book-card-content h3 {
-  height: 64px;
-  overflow: hidden;
   margin-bottom: 0.5rem;
+
   line-height: 1.3;
+
+  min-height: 3.2rem;
+
+  display: -webkit-box;
+
+  -webkit-line-clamp: 2;
+
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
 }
 
 .not-found-page {
